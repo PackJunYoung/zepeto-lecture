@@ -7,4 +7,5 @@
                  start-page="toc-lib.md">
 
     <toc-element topic="toc-lib.md"/>
+    <toc-element topic="variable-item.topic"/>
 </instance-profile>

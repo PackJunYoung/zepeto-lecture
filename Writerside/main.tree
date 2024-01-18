@@ -4,7 +4,8 @@
 
 <instance-profile id="main"
                  name="main"
-                 start-page="main.md">
+                 start-page="log-output.md">
 
-    <toc-element topic="main.md"/>
+    <toc-element topic="log-output.md"/>
+    <toc-element topic="variables.md"/>
 </instance-profile>
