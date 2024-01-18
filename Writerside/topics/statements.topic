@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="조건문과 반복문" id="statements">
+
+    <chapter title="조건문" id="conditional">
+        <list>
+            <li>조건문은 특정 조건의 참/거짓 여부에 따라 코드의 실행 흐름을 제어하는 구문입니다.</li>
+            <li>조건문은 주로 <control>if, else if, else</control> 를 사용합니다.</li>
+        </list>
+        <procedure title="if">
+            <p><control>if</control> 문은 주어진 조건이 참(true)일 경우, 코드 블록을 실행합니다.</p>
+            <code-block lang="plain text">
+                if (조건) {
+                    // 조건이 참일 때 실행할 코드
+                }
+            </code-block>
+            <tip>예시</tip>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class SampleScript extends ZepetoScriptBehaviour {
+
+                    Start() {
+                        var a: number = 10;
+                        if (a > 1) {
+                            console.log("1. a > 1은 참입니다.");
+                        }
+                        if (a < 1) {
+                            console.log("2. a < 1은 참입니다.");
+                        }
+                    }
+
+                    Update() {
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <note>결과</note>
+            <img src="log-output7.png" alt="log-output" border-effect="line" />
+            <p>두 번째 if 문은 거짓이기 때문에 로그가 찍히지 않습니다.</p>
+        </procedure>
+        <procedure title="else if, else" id="else_if_else">
+            <list>
+                <li><control>else if</control> 문은 첫 번째 if 조건이 거짓일 경우, 추가 조건을 검사합니다.</li>
+                <li><control>else</control> 문은 앞선 모든 조건이 거짓일 경우 실행될 코드 블록을 정의합니다.</li>
+            </list>
+            <code-block lang="plain text">
+                if (조건1) {
+                    // 조건1이 참일 때 실행할 코드
+                } else if (조건2) {
+                    // 조건1이 거짓이고, 조건2가 참일 때 실행할 코드
+                } else {
+                    // 앞선 모든 조건이 거짓일 때 실행할 코드
+                }
+            </code-block>
+            <tip>예시</tip>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class SampleScript extends ZepetoScriptBehaviour {
+
+                    Start() {
+                        var a: number = 10;
+                        if (a < 1) {
+                            console.log("1. a < 1은 참입니다.");
+                        } else if (a < 8) {
+                            console.log("2. a < 8은 참입니다.");
+                        } else if (a < 16) {
+                            console.log("3. a < 16은 참입니다.");
+                        } else {
+                            console.log("4. 모든 조건이 거짓입니다.");
+                        }
+                    }
+
+                    Update() {
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <note>결과</note>
+            <img src="log-output8.png" alt="log-output" border-effect="line" />
+            <p>두 번째 else if 문이 참이기 때문에 해당 코드 블록이 실행 됩니다.</p>
+        </procedure>
+    </chapter>
+    <chapter title="반복문" id="loop">
+        <list>
+            <li>반복문은 코드 블록을 여러 번 실행하고자 할 때 사용하는 구문입니다.</li>
+            <li>반복문은 주로 <control>for, while</control> 을 사용합니다.</li>
+        </list>
+        <procedure title="for" id="for">
+            <p><control>for</control> 문은 초기화, 조건, 반복 후 실행 코드를 통해 반복을 제어합니다.</p>
+            <code-block lang="plain text">
+                for (초기화; 조건; 반복 후 실행) {
+                    // 반복해서 실행할 코드
+                }
+            </code-block>
+            <tip>예시</tip>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class SampleScript extends ZepetoScriptBehaviour {
+
+                    Start() {
+                        for (var i: number = 0; i < 5; i = i + 1) {
+                            console.log(`i is ${i}`);
+                        }
+                    }
+
+                    Update() {
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <note>결과</note>
+            <img alt="log-output9.png" src="log-output9.png" border-effect="line"/>
+            <p>i가 0일 때 부터, 4까지 코드 블록이 실행 됩니다.</p>
+        </procedure>
+        <procedure title="while" id="while">
+            <p><control>while</control> 문은 주어진 조건이 참인 동안 코드 블록을 반복해서 실행합니다.</p>
+            <code-block lang="plain text">
+                while (조건) {
+                    // 반복해서 실행할 코드
+                }
+            </code-block>
+            <tip>예시</tip>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class SampleScript extends ZepetoScriptBehaviour {
+
+                    Start() {
+                        var i: number = 0;
+                        while (i < 5) {
+                            console.log(`i is ${i}.`);
+                            i++;
+                        }
+                    }
+
+                    Update() {
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <note>결과</note>
+            <img alt="log-output10.png" src="log-output10.png" border-effect="line"/>
+            <p>i가 0일 때 부터, 4까지 코드 블록이 실행 됩니다.</p>
+        </procedure>
+    </chapter>
+</topic>

@@ -8,4 +8,6 @@
 
     <toc-element topic="log-output.md"/>
     <toc-element topic="variables.md"/>
+    <toc-element topic="statements.topic"/>
+    <toc-element topic="class-method-property.topic"/>
 </instance-profile>

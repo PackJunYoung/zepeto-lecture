@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="클래스와 메서드, 프로퍼티" id="class-method-property">
+
+    <chapter title="class" id="class">
+        <p><control>class</control> 는 하나의 스크립트 파일과 대응되는 개념입니다.</p>
+        <procedure title="클래스 이름" id="class-name">
+            <code-block lang="typescript">
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class SampleScript extends ZepetoScriptBehaviour {
+
+                    Start() {
+                    }
+
+                    Update() {
+                    }
+
+                }
+            </code-block>
+            <p>기존에 사용하던 스크립트는 <control>SampleScript</control> 가 클래스 이름입니다. </p>
+        </procedure>
+        <procedure title="스크립트 생성" id="new-script">
+            <step>
+                <img alt="new_script.png" src="new_script.png" border-effect="line"/>
+                <p><ui-path>Project</ui-path> 윈도우에서 해당 메뉴를 통해 스크립트 파일을 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="new-script2.png" src="new-script2.png"/>
+                <p><ui-path>NewScript</ui-path> 이름으로 생성합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p>스크립트 이름과 동일하게 <ui-path>NewScript</ui-path> 라는 이름의 클래스가 생성됩니다.</p>
+            </step>
+        </procedure>
+        <procedure title="게임 오브젝트에 스크립트 제거, 추가" id="game-object-script">
+            <step>
+                <img alt="game-object-script-0.png" src="game-object-script-0.png" border-effect="line"/>
+                <p><control>Hierarchy</control> 윈도우에서 <control>Cube</control> 를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="game-object-script-2.png" src="game-object-script-2.png" border-effect="line"/>
+                <p><control>Inspector</control> 윈도우를 보면 처음에 생성된 <control>SampleScript</control> 가 추가되어있는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="game-object-script-3.png" src="game-object-script-3.png" border-effect="line"/>
+                <p>헤더 부분에서 마우스 오른쪽 클릭 후, <ui-path>Remove Component</ui-path> 메뉴를 클릭하여 해당 스크립트를 제거합니다.</p>
+            </step>
+            <step>
+                <img alt="game-object-script-4.png" src="game-object-script-4.png" border-effect="line"/>
+                <p>새로 추가한 <control>NewScript</control>를 <control>Inspector</control> 윈도우로 드래그하여 <control>Cube</control> 오브젝트에 추가합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="method" id="method">
+        <p><control>Method</control> 는 클래스 내에 선언되어 호출되며, 객체가 수행하는 특정 작업이나 동작을 표현합니다. </p>
+
+        <procedure title="메서드 예시" id="method-example">
+            <step>
+                <code-block lang="typescript">
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p>위 클래스(스크립트)에서 <control>Start</control> 는 메서드 입니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    Start() {
+                        console.log("log");
+                    }
+                </code-block>
+                <p><control>console.log</control> 는 <control>console</control> 클래스의 <control>log</control> 라는 이름의 메서드입니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="메서드 추가, 호출" id="add-method">
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+                        NewMethod() {
+                            console.log("This is new method.");
+                        }
+
+                    }
+                </code-block>
+                <p><control>NewMethod</control> 라는 이름의 메서드를 추가합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            this.NewMethod();
+                        }
+
+                        NewMethod() {
+                            console.log("This is new method.");
+                        }
+
+                    }
+                </code-block>
+                <p><control>this.[메서드 이름]</control> 으로 메서드를 호출할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="add-method-1.png" src="add-method-1.png" border-effect="line"/>
+                <p>결과 출력.</p>
+            </step>
+        </procedure>
+
+        <procedure title="메서드 파라미터 (매개변수)" id="method_parameters">
+            <p>메서드에는 파라미터를 전달할 수 있습니다.</p>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+
+                        Sum(a: number, b: number) {
+                            console.log(`a + b = ${a + b}`);
+                        }
+
+                    }
+                </code-block>
+                <p>파라미터는 메서드를 선언할 때, 괄호 안에 추가하여 코드 블록 내부에서 사용할 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var a: number = 10;
+                            var b: number = 5;
+                            this.Sum(a, b);
+                        }
+
+
+                        Sum(a: number, b: number) {
+                            console.log(`a + b = ${a + b}`);
+                        }
+
+                    }
+                </code-block>
+                <p>파라미터는 메서드를 호출할 때, 전달합니다.</p>
+            </step>
+            <step>
+                <img alt="add-method-2.png" src="add-method-2.png" border-effect="line"/>
+                <p>결과 출력.</p>
+            </step>
+        </procedure>
+
+        <procedure title="메서드 반환값" id="method-return">
+            <p>메서드에는 반환값을 반환할 수 있습니다.</p>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var a: number = 10;
+                            var b: number = 5;
+                            this.Sum(a, b);
+                        }
+
+
+                        Sum(a: number, b: number) {
+                            console.log(`a + b = ${a + b}`);
+                        }
+
+                        ReturnSum(a: number, b: number): number {
+                            return a + b;
+                        }
+
+                    }
+                </code-block>
+                <p>메서드를 선언할 때, 괄호 뒤에 타입을 명시해주면, 해당 타입의 값을 반환할 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var a: number = 10;
+                            var b: number = 5;
+                            this.Sum(a, b);
+
+                            var sum = this.ReturnSum(a, b);
+                            console.log(`sum = ${sum}`);
+                        }
+
+
+                        Sum(a: number, b: number) {
+                            console.log(`a + b = ${a + b}`);
+                        }
+
+                        ReturnSum(a: number, b: number): number {
+                            return a + b;
+                        }
+
+                    }
+                </code-block>
+                <p><control>return</control> 을 통해 결과를 반환합니다.</p>
+            </step>
+            <step>
+                <img alt="method-return.png" src="method-return.png" border-effect="line"/>
+                <p>결과 출력.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="property" id="property">
+        <p><control>Property</control> 는 클래스 내에 선언되는 변수이며, 객체의 상태를 표현합니다.</p>
+
+        <procedure title="변수의 한계" id="variable-limit">
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var a: number = 10;
+                            var b: number = 5;
+                            this.Sum();
+                        }
+
+
+                        Sum() {
+                            console.log(`a + b = ${a + b}`);
+                        }
+
+                    }
+                </code-block>
+                <p><control>Start</control> 메서드 안에 선언된 변수 <control>a, b</control> 는 Start 메서드 내부에서만 사용이 가능하고, Sum 메서드 내부에서는 사용이 불가능합니다.</p>
+                <warning>Sum 메서드에서 에러 발생합니다.</warning>
+            </step>
+        </procedure>
+
+        <procedure title="프로퍼티 추가, 사용" id="add_property">
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        count: number = 0;
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p><control>Property</control> 는 클래스 내부에서 선언된 변수 입니다.</p>
+                <p><control>[프로퍼티 이름]: [프로퍼티 타입] = [초기값];</control> 형태로 선언됩니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        count: number = 0;
+
+                        Start() {
+                            for (var i:number = 0; i < 5; i = i + 1) {
+                                this.AddCount();
+                                console.log(`count is ${this.count}.`)
+                            }
+                        }
+
+
+                        AddCount() {
+                            this.count = this.count + 1;
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p><control>프로퍼티</control> 역시 <control>this.</control> 와 함께 사용되며, 모든 메서드에서 사용 가능한 변수의 역할을 합니다.</p>
+            </step>
+            <step>
+                <img alt="add-property-1.png" src="add-property-1.png" border-effect="line"/>
+                <p>결과 출력.</p>
+            </step>
+        </procedure>
+
+        <procedure title="접근자" id="public-property">
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        public startCount: number = 0;
+
+                        private count: number = 0;
+
+                        Start() {
+                            this.count = this.startCount;
+                            console.log(`startCount is ${this.startCount}.`);
+                            for (var i:number = 0; i < 5; i = i + 1) {
+                                this.AddCount();
+                                console.log(`count is ${this.count}.`)
+                            }
+                        }
+
+
+                        AddCount() {
+                            this.count = this.count + 1;
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p>프로퍼티를 선언할 때, 앞에 <control>public</control> 이나 <control>private</control> 을 붙여서 선언할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="public-property.png" src="public-property.png" border-effect="line"/>
+                <p>중간 결과 출력.</p>
+            </step>
+            <step>
+                <img alt="public-property-3.png" src="public-property-3.png" border-effect="line"/>
+                <p><control>Inspector</control> 윈도우에서 <control>public</control> 으로 선언한 프로퍼티는 값을 설정할 수 있는 유아이가 추가됩니다.</p>
+            </step>
+            <step>
+                <img alt="public-property-4.png" src="public-property-4.png" border-effect="line"/>
+                <p><control>Inspector</control> 윈도우에서 변경한 값이 스크립트에서 초기값으로 선언한 값보다 우선 적용되어 실행됩니다.</p>
+            </step>
+            <tip>인스펙터에서 변경하지 않을 프로퍼티는 <control>private</control> 으로 선언하는 것이 좋습니다.</tip>
+        </procedure>
+    </chapter>
+</topic>
