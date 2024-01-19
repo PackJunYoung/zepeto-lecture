@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="게임 오브젝트와 라이프사이클" id="game-object-and-life-cycle">
+
+    <chapter title="게임 오브젝트" id="game_object">
+        <procedure title="게임 오브젝트란?" id="what_is_game_object">
+            <step>
+                <img alt="what_is_game_object-1.png" src="what_is_game_object-1.png" border-effect="line"/>
+                <p><control>Hierarchy</control> 윈도우에 있는 다양한 물체들이 전부 게임 오브젝트 입니다.</p>
+            </step>
+            <step>
+                <img alt="what_is_game_object-2.png" src="what_is_game_object-2.png" border-effect="line"/>
+                <p><control>게임 오브젝트</control> 는 이름과 <control>Transform</control> 을 포함하여 다양한 <control>컴포넌트</control> 를 가지고 있습니다.</p>
+            </step>
+        </procedure>
+        <procedure title="SetActive" id="set_active">
+            <step>
+                <img alt="set_active_1.png" src="set_active_1.png" border-effect="line"/>
+                <p><control>Inspector</control> 윈도우의 이름 옆에 체크박스를 해제하면, <control>게임 오브젝트</control> 가 비활성화 됩니다.</p>
+            </step>
+            <step>
+                <img alt="set_active_2.png" src="set_active_2.png" border-effect="line"/>
+                <p><control>Hierarchy</control> 윈도우에서도 짙은 회색으로 보이면서 비활성화 됩니다.</p>
+            </step>
+            <step>
+                <img alt="set_active_3.png" src="set_active_3.png" border-effect="line"/>
+                <p>다시 체크로 변경하여, 활성화 상태로 바꿔줍니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            this.gameObject.SetActive(false);
+                        }
+
+                    }
+                </code-block>
+                <p>스크립트에서 <control>게임 오브젝트</control> 를 제어하려면, <control>this.gameObject (프로퍼티)</control> 로 접근하면 됩니다.</p>
+                <p><control>SetActive (메서드)</control> 를 사용하면 해당 오브젝트를 활성화/비활성화 할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="set_active_4.png" src="set_active_4.png" border-effect="line"/>
+                <p>실행 시, 코드가 실행되어 해당 오브젝트가 비활성화 됩니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="라이프사이클" id="lifecycle">
+        <list>
+            <li>유니티의 게임 오브젝트는 생성, 제거 등의 여러 과정을 <control>라이프사이클</control> 이라고 합니다.</li>
+            <li>해당 라이프 사이클이 되면, 게임 오브젝트의 스크립트에 사전 정의된 <control>메서드</control> 가 자동으로 호출됩니다.</li>
+            <li>게임 오브젝트의 사전 정의된 메서드에는 여러가지가 있으며, 먼저 <control>Start, Update</control> 에 대해 알아보겠습니다.</li>
+        </list>
+
+        <procedure title="Start" id="lifecycle_start">
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            console.log("Start!!!");
+                        }
+
+                    }
+                </code-block>
+                <p><control>Start</control> 메서드는 유니티가 실행되면, 바로 호출됩니다.</p>
+            </step>
+            <step>
+                <img alt="lifecycle_start_1.png" src="lifecycle_start_1.png" border-effect="line"/>
+                <p>게임 오브젝트를 초기화하는 용도로 주로 사용됩니다.</p>
+            </step>
+            <step>
+                <img alt="lifecycle_start_2.png" src="lifecycle_start_2.png" border-effect="line"/>
+                <p>스크립트를 가지고 있는 게임 오브젝트가 비활성화 상태로 유니티가 실행되면, <control>Start</control> 메서드는 호출되지 않습니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="Update" id="lifecycle_update">
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            console.log("Start!!!");
+                        }
+
+                        Update() {
+                            console.log("Update!!!");
+                        }
+
+                    }
+                </code-block>
+                <p><control>Update</control> 메서드는 유니티가 실행되고, 매 프레임마다 호출됩니다.</p>
+            </step>
+            <step>
+                <img alt="lifecycle_update_1.png" src="lifecycle_update_1.png" border-effect="line"/>
+                <p>매 프레임마다 호출되며, 다양한 로직에 사용될 수 있습니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="deltaTime" id="delta_time">
+            <step>
+                <code-block lang="typescript">
+                    import { Time } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+                        Update() {
+                            console.log(`deltaTime: ${Time.deltaTime}`);
+                        }
+
+                    }
+                </code-block>
+                <p><control>Time.deltaTime</control> 은 마지막 프레임을 렌더링하는 동안 소요된 시간을 나타냅니다.</p>
+            </step>
+            <step>
+                <img alt="delta_time_1.png" src="delta_time_1.png" border-effect="line"/>
+                <p><control>Update</control> 가 한번 호출되는 간격과 동일하기 때문에 Update 와 함께 사용되는 경우가 많습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Time } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        private timer: number = 0;
+
+                        Start() {
+
+                        }
+
+                        Update() {
+                            this.timer = this.timer + Time.deltaTime;
+                            console.log(`timer: ${this.timer}`);
+                        }
+
+                    }
+                </code-block>
+                <p><control>Update</control> 마다 <control>Time.delta</control> 을 프로퍼티에 합산해주면, 유니티가 실행되고 부터 지난 시간이 저장됩니다.</p>
+            </step>
+            <step>
+                <img alt="delta_time_2.png" src="delta_time_2.png" border-effect="line"/>
+                <p>결과 출력.</p>
+            </step>
+        </procedure>
+    </chapter>
+</topic>

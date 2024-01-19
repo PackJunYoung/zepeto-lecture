@@ -10,4 +10,6 @@
     <toc-element topic="variables.md"/>
     <toc-element topic="statements.topic"/>
     <toc-element topic="class-method-property.topic"/>
+    <toc-element topic="game-object-and-life-cycle.topic"/>
+    <toc-element topic="chat-gpt-use.topic"/>
 </instance-profile>
