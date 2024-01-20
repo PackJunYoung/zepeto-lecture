@@ -12,4 +12,6 @@
     <toc-element topic="class-method-property.topic"/>
     <toc-element topic="game-object-and-life-cycle.topic"/>
     <toc-element topic="chat-gpt-use.topic"/>
+    <toc-element topic="collider-and-trigger.topic"/>
+    <toc-element topic="unity-ui.topic"/>
 </instance-profile>

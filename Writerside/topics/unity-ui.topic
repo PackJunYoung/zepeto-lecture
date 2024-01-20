@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="유니티 유아이" id="unity-ui">
+
+    <chapter title="캔버스" id="canvas">
+        <procedure title="캔버스 생성하기" id="canvas-create">
+            <step>
+                <img alt="canvas-create-1.png" src="canvas-create-1.png"/>
+                <p><ui-path>Hierarchy | 마우스 오른쪽 클릭 | UI | Text</ui-path> 메뉴를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="canvas-create-2.png" src="canvas-create-2.png"/>
+                <p><control>Canvas, Text, EventSystem</control> 이 생성됩니다.</p>
+            </step>
+            <step>
+                <img alt="canvas-create-3.png" src="canvas-create-3.png"/>
+                <p><ui-path>Scene | 2D</ui-path> 를 선택하여, 평면으로 보여지도록 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="canvas-create-4.png" src="canvas-create-4.png"/>
+                <p><control>Hierarchy</control> 윈도우에서 Canvas 를 선택하고, Scene 윈도우쪽으로 마우스를 이동시키고 <shortcut>F</shortcut> 를 누릅니다.</p>
+            </step>
+            <step>
+                <img alt="canvas-create-5.png" src="canvas-create-5.png"/>
+                <p>캔버스가 포커스 됩니다.</p>
+                <p>중간에 Text 가 있지만, 작아서 잘 보이지 않습니다.</p>
+            </step>
+            <tip>
+                EventSystem 은 클릭과 같은 이벤트를 탐지하는 오브젝트로 신경쓰지 않으셔도 됩니다.
+            </tip>
+        </procedure>
+    </chapter>
+
+    <chapter title="유아이 요소 추가하기" id="add-ui-element">
+        <procedure title="텍스트 추가" id="add-text">
+            <step>
+                <img alt="add-text-1.png" src="add-text-1.png"/>
+                <p>추가된 Text 의 Width와 Height를 (700, 400)으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="add-text-2.png" src="add-text-2.png"/>
+                <p><control>Text</control>를 <emphasis>Hello!!</emphasis>로 변경하고, <control>Font Size</control>를 150으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="add-text-3.png" src="add-text-3.png"/>
+                <p>캔버스에 텍스트가 출력됩니다.</p>
+            </step>
+            <step>
+                <img alt="add-text-4.png" src="add-text-4.png"/>
+                <p>이동 기즈모를 사용하여 가장자리로 이동시킵니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="이미지 추가" id="add-image">
+            <step>
+                <img alt="add-image-1.png" src="add-image-1.png"/>
+                <p>인터넷에서 적당한 이미지를 찾아 <ui-path>Project</ui-path>에 추가해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="add-image-2.png" src="add-image-2.png"/>
+                <p>유아이에 사용하는 이미지는 <control>Texture Type</control>을 <emphasis>Sprite (2D and UI)</emphasis>로 변경해 줍니다.</p>
+                <p><control>Apply</control> 버튼을 클릭하여 변경사항을 적용시켜줍니다.</p>
+            </step>
+            <step>
+                <img alt="add-image-3.png" src="add-image-3.png"/>
+                <p>캔버스를 마우스 오른쪽 버튼으로 클릭한 뒤, <ui-path>UI | Image</ui-path> 메뉴를 선택하여 이미지를 추가해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="add-image-4.png" src="add-image-4.png"/>
+                <p><ui-path>Inspector | Image | Source Image</ui-path>에 추가한 이미지를 드래그하여 적용시킵니다.</p>
+            </step>
+            <step>
+                <img alt="add-image-5.png" src="add-image-5.png"/>
+                <p><ui-path>Set Native Size</ui-path> 버튼을 클릭하면 이미지가 원본 사이즈로 확대 됩니다.</p>
+            </step>
+            <step>
+                <img alt="add-image-6.png" src="add-image-6.png"/>
+                <p>캔버스에 이미지가 추가됩니다.</p>
+            </step>
+            <step>
+                <img alt="add-image-7.png" src="add-image-7.png"/>
+                <p>이미지도 가장자리로 위치를 변경합니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="버튼 추가" id="add-button">
+            <step>
+                <img alt="add-button-1.png" src="add-button-1.png"/>
+                <p><ui-path>Canvas | 마우스 우클릭 | UI | Button</ui-path> 메뉴를 선택하여, 버튼을 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="add-button-2.png" src="add-button-2.png"/>
+                <p>버튼의 <ui-path>Width, Height</ui-path>를 <emphasis>(700, 400)</emphasis>으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="add-button-3.png" src="add-button-3.png"/>
+                <p>Button 하위의 Text를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="add-button-4.png" src="add-button-4.png"/>
+                <p>버튼 Text의 <control>Font Size</control>를 <emphasis>200</emphasis>으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="add-button-5.png" src="add-button-5.png"/>
+                <p>버튼의 위치도 변경해 줍니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="유아이 스크립트 연결하기" id="ui-script">
+        <procedure title="유아이 스크립트 추가" id="add-ui-script">
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiManager extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p><control>UiManager</control> 이름의 스크립트를 하나 추가합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Button, Text } from 'UnityEngine.UI'
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiManager extends ZepetoScriptBehaviour {
+
+                        public text: Text;
+                        public button: Button;
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p><control>Text, Button</control> 타입의 프로퍼티 <emphasis>text, button</emphasis>을 선언해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="add-script-1.png" src="add-script-1.png"/>
+                <p><control>Canvas</control>에 <control>UiManager</control> 스크립트를 드래그하여 추가해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="add-script-2.png" src="add-script-2.png"/>
+                <p>Canvas 하위의 Text와 Button을 각각 드래그하여 프로퍼티를 할당해 줍니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="유아이 조작하기" id="use-ui">
+            <step>
+                <code-block lang="typescript">
+                    import { Button, Text } from 'UnityEngine.UI'
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiManager extends ZepetoScriptBehaviour {
+
+                        public text: Text;
+                        public button: Button;
+
+                        Start() {
+                            this.text.text = "count = 0";
+                        }
+
+                    }
+                </code-block>
+                <p><control>Text</control>는 text라는 이름의 프로퍼티를 가지고 있으며, 이 값은 string 타입입니다.</p>
+                <p>이 <control>text</control> 값을 변경해주면, 텍스트의 문구를 변경할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="use-ui-1.png" src="use-ui-1.png"/>
+                <p>실행 시, 텍스트의 문구가 변경된 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Button, Text } from 'UnityEngine.UI'
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiManager extends ZepetoScriptBehaviour {
+
+                        public text: Text;
+                        public button: Button;
+
+                        Start() {
+                            this.text.text = "count = 0";
+                            this.button.onClick.AddListener(() => {
+
+                            });
+                        }
+
+                    }
+                </code-block>
+                <p>버튼 클릭 시, 로직이 동작하도록 하기 위해 <path>Button.onClick.AddListener</path>를 사용합니다.</p>
+                <p>AddListener 내부에는 <path>() => { }</path>과 같은 형태로 추가되며, 중괄호 내부에 버튼 클릭 시 동작할 로직을 작성합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Button, Text } from 'UnityEngine.UI'
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiManager extends ZepetoScriptBehaviour {
+
+                        public text: Text;
+                        public button: Button;
+
+                        private count: number = 0;
+
+                        Start() {
+                            this.text.text = "count = 0";
+                            this.button.onClick.AddListener(() => {
+                                this.count = this.count + 1;
+                                this.text.text = `count = ${this.count}`;
+                            });
+                        }
+
+                    }
+                </code-block>
+                <p><path>count</path> 이름의 프로퍼티를 추가하고, 버튼 클릭 시마다 1 증가시키고 현재 값을 텍스트에 출력시키도록 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="button-use-1.png" src="button-use-1.png"/>
+                <p>버튼을 클릭할 때마다 1씩 증가하면서 텍스트에 count가 출력됩니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+</topic>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="충돌체와 트리거" id="collider-and-trigger">
+
+    <chapter title="충돌체 (Collider)" id="collider">
+        <procedure title="충돌체란?" id="what-is-collider">
+            <img alt="what-is-collider-1.png" src="what-is-collider-1.png"/>
+            <list>
+                <li>충돌체는 <control>유니티 컴포넌트</control> 입니다.</li>
+                <li>충돌체는 모양에 따라 <control>BoxCollider, SphereCollider, CapsuleCollider</control> 등이 있습니다.</li>
+                <li>충돌체는 오브젝트간의 <control>충돌</control> 을 제어합니다.</li>
+            </list>
+        </procedure>
+
+        <procedure title="충돌체 큐브 생성" id="collider-test">
+            <step>
+                <img alt="collider-test-1.png" src="collider-test-1.png"/>
+                <p>이번 테스트부터는 <control>제페토 기본 설정</control> 이 완료된 상태에서 시작합니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-3.png" src="collider-test-3.png"/>
+                <p><control>Plane</control> 의 <control>Position</control> 은 (0, -0.5, 0), <control>Scale</control> 은 (5, 1, 5) 로 설정합니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-2.png" src="collider-test-2.png"/>
+                <p><ui-path>GameObject | 3D Object | Cube</ui-path> 메뉴를 통해 큐브를 하나 생성합니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-4.png" src="collider-test-4.png"/>
+                <p><ui-path>Transform | ... | Reset</ui-path> 메뉴를 클릭하면, 위치가 (0, 0, 0)으로 초기화 됩니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-5.png" src="collider-test-5.png"/>
+                <p>초기화 이후에, (0, 0, 0)은 캐릭터가 생성되는 위치이기 때문에, Position 의 x나 z 값을 변경하여 거리를 벌려줍니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-6.png" src="collider-test-6.png"/>
+                <p><ui-path>Project | + | Material</ui-path> 메뉴를 선택하여, 큐브에 입힐 머티리얼을 하나 추가해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-7.png" src="collider-test-7.png"/>
+                <p><ui-path>Inspector | Main Maps | Albedo</ui-path> 에서 눈에 띄는 색상으로 변경해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-8.png" src="collider-test-8.png"/>
+                <p>큐브 오브젝트의 <ui-path>Inspector | Mesh Renderer | Materials | Element 0</ui-path> 에 생성한 머티리얼을 드래그 하여, 머티리얼을 적용시킵니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-9.png" src="collider-test-9.png"/>
+                <p>큐브에 머티리얼이 적용되고, 자세히 보시면 외곽에 연두색 선이 보입니다.</p>
+            </step>
+            <step>
+                <img alt="collider-test-10.png" src="collider-test-10.png"/>
+                <p>큐브는 생성 시, <control>Box Collider</control> 가 기본으로 추가되어 있습니다.</p>
+            </step>
+            <tip>
+                <p>큐브에 있던 연두색 외곽선은 충돌체를 나타냅니다.</p>
+            </tip>
+        </procedure>
+
+        <procedure title="충돌체 확인하기" id="collider-check">
+            <step>
+                <img alt="collider-check-1.png" src="collider-check-1.png"/>
+                <p>유니티를 실행하고 생성한 큐브의 위치로 캐릭터를 이동합니다.</p>
+                <p>큐브 쪽으로 계속 이동해도, 큐브에 막혀서 이동되지 않습니다.</p>
+                <p>이처럼, 충돌체는 플레이어이 이동을 막는 <control>벽</control> 역할을 합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="트리거" id="trigger">
+        <procedure title="큐브 구조 변경하기" id="cube-change">
+            <step>
+                <img alt="cube-change-1.png" src="cube-change-1.png"/>
+                <p><ui-path>Game Object | Create Empty</ui-path> 메뉴를 선택하여, 빈 오브젝트를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="cube-change-2.png" src="cube-change-2.png"/>
+                <p>빈 오브젝트의 이름을 <control>NPC</control> 로 변경하고 <control>Position</control> 을 초기화 해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="cube-change-3.png" src="cube-change-3.png"/>
+                <p><ui-path>Hierarchy</ui-path> 윈도우에서 Cube 를 드래그하여, NPC 하위로 이동시킵니다.</p>
+            </step>
+            <step>
+                <img alt="cube-change-4.png" src="cube-change-4.png"/>
+                <p>하위 구조로 변경되면 큐브의 <control>Position</control> 은 상대 좌표가 되어, (0, 0, 0)으로 변경해야 NPC 와 같은 위치가 됩니다.</p>
+            </step>
+            <step>
+                <img alt="cube-change-5.png" src="cube-change-5.png"/>
+                <p>NPC 의 위치를 다시 원점과 떨어뜨려 놓습니다.</p>
+            </step>
+            <step>
+                <img alt="cube-change-6.png" src="cube-change-6.png"/>
+                <p>실행 시, NPC 하위 구조로 변경하기 전과 동일한 상황입니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="트리거로 변경하기" id="trigger-change">
+            <step>
+                <img alt="trigger-change-2.png" src="trigger-change-2.png"/>
+                <p>NPC 에 <ui-path>Inspector | Add Component | Box Collider</ui-path> 를 선택하여, 충돌체를 추가해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-change-1.png" src="trigger-change-1.png"/>
+                <p>충돌체의 Size 를 (3, 3, 3)으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-change-3.png" src="trigger-change-3.png"/>
+                <p>큐브 외곽에 더 큰 연두색 선이 보입니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-change-6.png" src="trigger-change-6.png"/>
+                <p>실행 시, 더 커진 충돌체 만큼 이동이 불가합니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-change-7.png" src="trigger-change-7.png"/>
+                <p>NPC 의 충돌체를 <ui-path>Box Collider | Is Trigger</ui-path> 를 체크하여 트리거 충돌체로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-change-8.png" src="trigger-change-8.png"/>
+                <p>이제 크기가 큰 NPC 의 충돌체는 이동이 막히지 않고, 큐브에서만 이동이 불가합니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="트리거 탐지하기" id="trigger-check">
+            <step>
+                <img alt="trigger-check-1.png" src="trigger-check-1.png"/>
+                <p><control>NpcPlayer</control> 라는 이름의 스크립트를 하나 생성합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Collider } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NpcPlayer extends ZepetoScriptBehaviour {
+
+                        OnTriggerEnter(collider: Collider) {
+                            console.log("OnTriggerEnter!!!");
+                        }
+
+                        OnTriggerExit(collider: Collider) {
+                            console.log("OnTriggerExit!!!");
+                        }
+
+                    }
+                </code-block>
+                <p><control>OnTriggerEnter, OnTriggerExit</control> 메서드를 추가하고, 로그를 심어줍니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-check-2.png" src="trigger-check-2.png"/>
+                <p>NPC 오브젝트에 NpcPlayer 스크립트를 드래그하여, 추가해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-check-3.png" src="trigger-check-3.png"/>
+                <p>캐릭터로 NPC 오브젝트 근처를 들어갔다 나왔다를 반복합니다.</p>
+            </step>
+            <step>
+                <img alt="trigger-check-4.png" src="trigger-check-4.png"/>
+                <p>트리거 영역을 들어갈 때마다 OnTriggerEnter, 나올때 마다 OnTriggerExit 가 호출되어 로그가 출력되는 것을 확인 할 수 있습니다.</p>
+            </step>
+            <tip>OnTriggerEnter, OnTriggerExit 는 트리거 충돌체와 연관되어 유니티에서 자동으로 호출해 주는 라이프사이클 메서드 입니다.</tip>
+        </procedure>
+    </chapter>
+</topic>

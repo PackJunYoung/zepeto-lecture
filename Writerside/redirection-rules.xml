@@ -10,4 +10,8 @@
         <description>Created after removal of "About main" from main</description>
         <accepts>main.html</accepts>
     </rule>
+    <rule id="3c81d946">
+        <description>Created after removal of "유니티 유아이" from main</description>
+        <accepts>유니티-유아이.html</accepts>
+    </rule>
 </rules>
