@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="list와 map" id="list-and-map">
+
+    <p>타입스크립트에서 <control>List</control>와 <control>Map</control>은 데이터를 다룰 때 흔히 사용되는 자료 구조 중 두 가지 입니다.</p>
+
+    <chapter title="List (배열)">
+        <list>
+            <li>List 또는 배열은 여러 값을 순차적으로 저장하는 자료구조입니다.</li>
+            <li>각 요소는 인덱스를 통해 접근할 수 있습니다.</li>
+        </list>
+
+        <deflist>
+            <def title="배열 생성하기">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var numbers: number[] = [1, 2, 3, 4, 5];
+                            var fruits: string[] = ["apple", "banana", "orange"];
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>이 코드에서 <control>numbers</control>는 숫자로 이루어진 배열, <control>fruits</control>는 문자열로 이루어진 배열을 생성합니다.</li>
+                    <li>타입스크립트에서는 변수 뒤에 <control>[]</control>를 붙여 배열을 선언할 수 있습니다.</li>
+                </list>
+            </def>
+
+            <def title="배열 요소에 접근하기">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var numbers: number[] = [1, 2, 3, 4, 5];
+                            var fruits: string[] = ["apple", "banana", "orange"];
+
+                            console.log(numbers[0]);
+                            console.log(fruits[1]);
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>배열의 각 요소에는 인덱스를 통해 접근할 수 있습니다.</li>
+                    <li>인덱스는 0부터 시작하며, 대괄호 <control>[]</control> 안에 인덱스를 넣어 해당 요소에 접근할 수 있습니다.</li>
+                </list>
+                <tip>
+                    <p>결과 출력</p>
+                    <img alt="list-and-map-1.png" src="list-and-map-1.png"/>
+                </tip>
+            </def>
+
+            <def title="배열 순회하기">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var numbers: number[] = [1, 2, 3, 4, 5];
+                            var fruits: string[] = ["apple", "banana", "orange"];
+
+                            for (var fruit of fruits) {
+                                console.log(fruit);
+                            }
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li><control>for...of</control> 문을 사용하여 배열을 순회할 수 있습니다.</li>
+                    <li>각 반복에서 <control>fruit</control> 변수에는 배열의 요소가 순서대로 할당되며, 여기서는 과일의 이름이 출력됩니다.</li>
+                </list>
+                <tip>
+                    <p>결과 출력</p>
+                    <img alt="list-and-map-2.png" src="list-and-map-2.png"/>
+                </tip>
+            </def>
+
+            <def title="배열에 요소 추가하기">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var numbers: number[] = [1, 2, 3, 4, 5];
+                            var fruits: string[] = ["apple", "banana", "orange"];
+
+                            fruits.push("grape");
+
+                            for (var fruit of fruits) {
+                                console.log(fruit);
+                            }
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li><control>push</control> 메서드를 사용하여 배열에 새로운 요소를 추가할 수 있습니다.</li>
+                    <li>위의 코드는 <control>fruits</control> 배열에 "grape"를 추가합니다.</li>
+                </list>
+                <tip>
+                    <p>결과 출력</p>
+                    <img alt="list-and-map-3.png" src="list-and-map-3.png"/>
+                </tip>
+            </def>
+        </deflist>
+    </chapter>
+
+    <chapter title="Map (맵)">
+        <list>
+            <li><control>Map</control>은 키-값 쌍을 저장하는 자료 구조입니다.</li>
+            <li>Map을 사용할 때 타입 정보를 명시할 수 있습니다.</li>
+            <li>각 키는 유일해야 하며, 중복된 키가 존재할 수 없습니다.</li>
+        </list>
+
+        <deflist>
+            <def title="Map 생성하기">
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var myMap: Map<string, number> = new Map();
+                            myMap.set("one", 1);
+                            myMap.set("two", 2);
+                        }
+
+                    }
+                ]]>
+                </code-block>
+                <list>
+                    <li><control>Map</control> 클래스를 사용하여 새로운 맵을 생성합니다.</li>
+                    <li>이 맵은 문자열 키와 숫자 값을 가지는 것으로 정의되어 있습니다.</li>
+                </list>
+            </def>
+
+            <def title="Map 요소에 접근하기">
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var myMap: Map<string, number> = new Map();
+                            myMap.set("one", 1);
+                            myMap.set("two", 2);
+
+                            console.log(myMap.get("one"));
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <list>
+                    <li><control>get</control> 메서드를 사용하여 맵에서 특정 키에 해당하는 값을 얻을 수 있습니다.</li>
+                    <li>위의 코드에서는 "one" 키에 해당하는 값을 출력합니다.</li>
+                </list>
+                <tip>
+                    <p>결과 출력</p>
+                    <img alt="list-and-map-4.png" src="list-and-map-4.png"/>
+                </tip>
+            </def>
+
+            <def title="Map 순회하기">
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var myMap: Map<string, number> = new Map();
+                            myMap.set("one", 1);
+                            myMap.set("two", 2);
+
+                            myMap.forEach((value, key) => {
+                                console.log(`${key}: ${value}`);
+                            });
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <list>
+                    <li><control>forEach</control> 메서드를 사용하여 맵을 순회할 수 있습니다.</li>
+                    <li>각 반복에서 <control>key</control>와 <control>value</control> 변수에는 맵의 키와 값이 할당되며, 여기서는 각 키와 값이 출력됩니다.</li>
+                </list>
+                <tip>
+                    <p>결과 출력</p>
+                    <img alt="list-and-map-5.png" src="list-and-map-5.png"/>
+                </tip>
+            </def>
+
+            <def title="Map에 요소 추가하기">
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var myMap: Map<string, number> = new Map();
+                            myMap.set("one", 1);
+                            myMap.set("two", 2);
+                            myMap.set("three", 3);
+
+                            myMap.forEach((value, key) => {
+                                console.log(`${key}: ${value}`);
+                            });
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <list>
+                    <li><control>set</control> 메서드를 사용하여 맵에 새로운 키-값 쌍을 추가할 수 있습니다.</li>
+                    <li>위의 코드는 "three" 키와 값 3을 추가합니다.</li>
+                </list>
+                <tip>
+                    <p>결과 출력</p>
+                    <img alt="list-and-map-6.png" src="list-and-map-6.png"/>
+                </tip>
+            </def>
+        </deflist>
+    </chapter>
+</topic>

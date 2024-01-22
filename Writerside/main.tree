@@ -6,12 +6,21 @@
                  name="main"
                  start-page="log-output.md">
 
-    <toc-element topic="log-output.md"/>
-    <toc-element topic="variables.md"/>
-    <toc-element topic="statements.topic"/>
-    <toc-element topic="class-method-property.topic"/>
-    <toc-element topic="game-object-and-life-cycle.topic"/>
-    <toc-element topic="chat-gpt-use.topic"/>
-    <toc-element topic="collider-and-trigger.topic"/>
-    <toc-element topic="unity-ui.topic"/>
+    <toc-element toc-title="유니티와 프로그래밍 기초">
+        <toc-element topic="log-output.md"/>
+        <toc-element topic="variables.md"/>
+        <toc-element topic="statements.topic"/>
+        <toc-element topic="class-method-property.topic"/>
+        <toc-element topic="game-object-and-life-cycle.topic"/>
+        <toc-element topic="chat-gpt-use.topic"/>
+        <toc-element topic="collider-and-trigger.topic"/>
+        <toc-element topic="unity-ui.topic"/>
+    </toc-element>
+    <toc-element toc-title="프로그래밍 중급">
+        <toc-element topic="operator-short.topic"/>
+        <toc-element topic="type-inference.topic"/>
+        <toc-element topic="enum.topic"/>
+        <toc-element topic="arrow-function.topic"/>
+        <toc-element topic="list-and-map.topic"/>
+    </toc-element>
 </instance-profile>

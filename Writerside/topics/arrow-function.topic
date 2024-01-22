@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="화살표 함수" id="arrow-function">
+
+    <chapter title="화살표 함수란?">
+        <list>
+            <li><control>화살표 함수(arrow function)</control>는 함수(메서드)를 간결하게 표현하기 위한 문법입니다.</li>
+            <li>화살표 함수는 기존의 함수 선언 방식과 비교하여 몇 가지 특징을 갖고 있습니다.</li>
+        </list>
+    </chapter>
+
+    <chapter title="화살표 함수를 사용하는 이유">
+        <list>
+            <li>화살표 함수를 사용하면 기본적으로 코드가 간결해집니다.</li>
+            <li>간결한 문법으로 인해 코드의 가독성이 향상됩니다.</li>
+        </list>
+    </chapter>
+    
+    <chapter title="화살표 함수 사용해보기">
+        <deflist>
+            <def title="기본적인 화살표 함수 문법">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var add = (a: number, b: number): number => {
+                                return a + b;
+                            };
+
+                            console.log(add(2, 3));
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>위의 예제에서 <control>add</control>라는 화살표 함수를 정의하였습니다.</li>
+                    <li><control>(a: number, b: number): number</control>는 매개변수 a와 b가 각각 숫자이며, 함수의 반환값이 숫자임을 명시합니다.</li>
+                </list>
+                <tip>
+                    <p>실행 결과</p>
+                    <img alt="arrow-function-1.png" src="arrow-function-1.png"/>
+                </tip>
+            </def>
+
+            <def title="단일 표현식인 경우 중괄호 생략하기">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var multiply = (a: number, b: number): number => a * b;
+
+                            console.log(multiply(2, 3));
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>만약 함수가 단일 표현식만을 포함한다면, 중괄호 <control>{}</control>를 생략하고 간단히 작성할 수 있습니다.</li>
+                </list>
+                <tip>
+                    <p>실행 결과</p>
+                    <img alt="arrow-function-2.png" src="arrow-function-2.png"/>
+                </tip>
+            </def>
+
+            <def title="매개변수가 하나인 경우 괄호 생략하기">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var greet = name => `Hello, ${name}!`;
+
+                            console.log(greet("John"));
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>만약 매개변수가 하나뿐인 경우에는 괄호 <control>()</control>를 생략할 수 있습니다.</li>
+                </list>
+                <tip>
+                    <p>실행 결과</p>
+                    <img alt="arrow-function-3.png" src="arrow-function-3.png"/>
+                </tip>
+            </def>
+
+            <def title="함수 바디에 여러 표현식이 있는 경우">
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class NewScript extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            var calculate = (x: number, y: number): number => {
+                                var sum = x + y;
+                                var product = x * y;
+                                return sum + product;
+                            };
+
+                            console.log(calculate(2, 3));
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>함수 바디에 여러 표현식이 있는 경우에는 중괄호 <control>{}</control>로 감싸주고, 각 표현식은 세미콜론으로 구분합니다.</li>
+                </list>
+            </def>
+        </deflist>
+    </chapter>
+</topic>
