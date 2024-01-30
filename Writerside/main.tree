@@ -23,4 +23,5 @@
         <toc-element topic="arrow-function.topic"/>
         <toc-element topic="list-and-map.topic"/>
     </toc-element>
+    <toc-element topic="git-clone.topic"/>
 </instance-profile>
