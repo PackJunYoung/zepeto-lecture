@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="충돌체 알아보기" id="mystery-house-collider">
+
+    <chapter title="충돌체">
+        <procedure title="Box Collider">
+            <step>
+                <img alt="collider-1.png" src="collider-1.png"/>
+                <p><path>Environment | mysteryhouse_furniture_cabinet1 | GH_BookshelfA_001-base</path> 를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="collider-2.png" src="collider-2.png"/>
+                <p><path>Mesh Renderer</path>와 함께 <path>Box Collider</path> 컴포넌트를 가지고 있는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="collider-3.png" src="collider-3.png"/>
+                <p><path>Scene</path> 윈도우에서 봤을 때, 선반 주위에 연두색 박스가 <path>Box Collider</path> 입니다.</p>
+            </step>
+            <step>
+                <img alt="collider-4.png" src="collider-4.png"/>
+                <p>실행 시, <path>Box Collider</path> 영역은 캐릭터의 이동이 막히는 것을 볼 수 있습니다.</p>
+            </step>
+            <tip>
+                <p>위와 같이, <path>충돌체</path>는 캐릭터의 이동을 막는 영역을 지정하는데 사용합니다.</p>
+            </tip>
+        </procedure>
+
+        <procedure title="Mesh Collider">
+            <step>
+                <img alt="collider-5.png" src="collider-5.png"/>
+                <p><path>Environment | mysteryhouse_furniture_brazier</path> 를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="collider-6.png" src="collider-6.png"/>
+                <p>이번엔 <path>Mesh Collider</path> 컴포넌트를 가지고 있는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="collider-7.png" src="collider-7.png"/>
+                <p><path>Scene</path> 윈도우에서 봤을 때, 메쉬 모양을 따라 연두색 선이 구성된 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="collider-8.png" src="collider-8.png"/>
+                <p>실행 시, 정확하게 오브젝트의 모양에 맞게 캐릭터의 이동이 막히는 것을 볼 수 있습니다.</p>
+            </step>
+            <tip>
+                <p><path>Mesh Collider</path>를 사용할 경우, 정확하게 모양대로 이동이 제한되지만 연산이 많아지게 되어 프레임 드랍을 유발할 수 있습니다.</p>
+                <p>가능하다면 <path>Box Collider</path>나 <path>Sphere Collider</path>와 같은 기본적인 모양의 충돌체를 사용하는 것이 좋습니다.</p>
+            </tip>
+        </procedure>
+    </chapter>
+</topic>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="라이트 알아보기" id="mystery-house-light">
+
+    <chapter title="스카이 박스">
+        <procedure title="스카이 박스 적용하기">
+            <step>
+                <img alt="light-1.png" src="light-1.png"/>
+                <p><path>StoreAssets | Free Stylized Skybox | CubeMap | Materials | Sky_LowPoly_02_Night_a</path> 파일을 선택합니다.</p>
+            </step>
+            <step>
+                <p>해당 파일을 클릭한 채로 <path>Scene</path> 윈도우까지 드래그 합니다.</p>
+            </step>
+            <step>
+                <img alt="light-2.png" src="light-2.png"/>
+                <p>스카이 박스가 바로 적용됩니다.</p>
+            </step>
+            <tip>
+                <p>어두운 색감의 스카이 박스만 적용해도 전체적으로 약간 어두워 집니다.</p>
+            </tip>
+        </procedure>
+    </chapter>
+
+    <chapter title="디렉셔널 라이트">
+        <procedure title="디렉셔널 라이트 설정값 변경하기">
+            <step>
+                <img alt="light-3.png" src="light-3.png"/>
+                <p><path>Environment | Directional Light</path>를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="light-4.png" src="light-4.png"/>
+                <p><path>Light</path> 컴포넌트를 가지고 있으며, Type이 <path>Directional</path>로 지정된 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="light-5.png" src="light-5.png"/>
+                <p><path>Intensity</path> 값을 0.2로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="light-6.png" src="light-6.png"/>
+                <p>전체적으로 어두워진 것을 확인할 수 있습니다.</p>
+            </step>
+            <tip>
+                <p>디렉셔널 라이트는 태양빛을 나타내며, 전체 오브젝트에 적용됩니다.</p>
+                <p>빛의 세기와 색감을 조절할 수 있고, 각도를 변경하여 그림자의 모양을 바꿀 수 있습니다.</p>
+            </tip>
+        </procedure>
+    </chapter>
+
+    <chapter title="포인트 라이트">
+        <procedure title="포인트 라이트 설정값 변경하기">
+            <step>
+                <img alt="light-7.png" src="light-7.png"/>
+                <p><path>Environment | mysteryhouse_furniture_brazier | Point Light</path>를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="light-8.png" src="light-8.png"/>
+                <p><path>Light</path> 컴포넌트를 가지고 있으며, Type이 <path>Point</path>로 지정된 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="light-9.png" src="light-9.png"/>
+                <p><path>Range</path> 값을 15, <path>Intensity</path> 값을 10으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="light-10.png" src="light-10.png"/>
+                <p>화로에서 전구와 같이 가까이 갈 수록 밝아지는 라이트가 추가된 것을 확인할 수 있습니다.</p>
+            </step>
+            <tip>
+                <p><path>Range</path>는 빛의 영역 값을 나타내며, 멀리 떨어질수록 빛이 약해집니다.</p>
+                <p><path>Intensity</path>는 빛의 강도이며, <path>Color</path> 값을 변경하여 색상을 변경할 수 있습니다.</p>
+            </tip>
+        </procedure>
+    </chapter>
+
+    <chapter title="이펙트">
+        <procedure title="화로에 불 이펙트 추가하기">
+            <step>
+                <img alt="light-11.png" src="light-11.png"/>
+                <p><path>Packages | Effect | Prefabs | effect_fire1</path> 프리팹을 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="light-12.png" src="light-12.png"/>
+                <p><path>mysteryhouse_furniture_brazier</path> 하위로 드래그하여, 하위에 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="light-13.png" src="light-13.png"/>
+                <p><path>Position</path>을 (0, 0, 0)으로 변경하여 화로 위치와 동일하게 변경해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="light-14.png" src="light-14.png"/>
+                <p>effect_fire1은 <path>Particle System</path> 컴포넌트를 가진 것을 볼 수 있습니다.</p>
+                <p>파티클 시스템은 유니티에서 이펙트를 적용하기 위한 컴포넌트로 매우 다양한 설정값을 가지고 있습니다.</p>
+            </step>
+            <step>
+                <img alt="light-15.png" src="light-15.png"/>
+                <p>화로에 활활 타오르는 불 이펙트가 추가된 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+</topic>
