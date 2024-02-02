@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="캐릭터 부활 시키기" id="revive">
+
+    <chapter title="캐릭터 전용 스크립트 추가">
+        <procedure title="Add Component">
+            <step>
+                <img alt="revive-1.png" src="revive-1.png"/>
+                <p>실행 시, 내 캐릭터에는 <path>ZepetoCharacter</path> 라는 스크립트가 추가되어 있는 것을 확인할 수 있습니다.</p>
+                <p>ZepetoCharacter 스크립트는 제페토 스크립트로 수정이 불가능하기 때문에, 캐릭터를 제어하기 위한 스크립트를 별도로 추가주는 편이 좋습니다.</p>
+            </step>
+            <step>
+                <img alt="revive-2.png" src="revive-2.png"/>
+                <p><path>Script | Common</path> 경로에 <path>CharacterPlayer</path> 스크립트를 추가합니다.</p>
+                <p>위 스크립트를 내 제페토 캐릭터에 추가해 줄 예정입니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            console.log(this.gameObject.name);
+                        }
+
+                    }
+                </code-block>
+                <p>시작 시, 게임 오브젝트의 이름을 출력하도록 간단하게 코드를 작성합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayers } from
+                    'ZEPETO.Character.Controller';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                    import { WorldService } from 'ZEPETO.World';
+
+                    export default class CharacterController extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            // Grab the user id specified from logging into zepeto through the editor.
+                            ZepetoPlayers.instance.CreatePlayerWithUserId(WorldService.userId, new SpawnInfo(), true);
+                            ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+                                const player: LocalPlayer = ZepetoPlayers.instance.LocalPlayer;
+                            });
+                        }
+
+                    }
+                </code-block>
+                <p><path>CharacterController</path> 스크립트를 열어 봅니다.</p>
+                <p>위 스크립트는 제페토 캐릭터가 추가되면 호출되는 <path>OnAddedLocalPlayer</path> 를 정의하고 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    Start() {
+                        // Grab the user id specified from logging into zepeto through the editor.
+                        ZepetoPlayers.instance.CreatePlayerWithUserId(WorldService.userId, new SpawnInfo(), true);
+                        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+                            const player: LocalPlayer = ZepetoPlayers.instance.LocalPlayer;
+
+                            // 캐릭터에 내가 제어할 수 있는 스크립트 추가.
+                            var zepetoCharacter: ZepetoCharacter = player.zepetoPlayer.character;
+                        });
+                    }
+                </code-block>
+                <p>위 와같이 <path>player.zepetoPlayer.character</path> 로 접근하면, 위에서 보았던 <path>ZepetoCharacter</path> 에 접근할 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    Start() {
+                        // Grab the user id specified from logging into zepeto through the editor.
+                        ZepetoPlayers.instance.CreatePlayerWithUserId(WorldService.userId, new SpawnInfo(), true);
+                        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+                            const player: LocalPlayer = ZepetoPlayers.instance.LocalPlayer;
+
+                            // 캐릭터에 내가 제어할 수 있는 스크립트 추가.
+                            var zepetoCharacter: ZepetoCharacter = player.zepetoPlayer.character;
+                            zepetoCharacter.gameObject.AddComponent<CharacterPlayer>();
+                        });
+                    }
+                    ]]>
+                </code-block>
+                <p>이후에 <path>zepetoCharacter.gameObject</path> 로 접근하면 제페토 캐릭터의 게임 오브젝트에 접근할 수 있습니다.</p>
+                <p>또한, <path>gameObject.AddComponent</path> 메서드를 통해, 게임 오브젝트에 컴포넌트를 추가할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="revive-3.png" src="revive-3.png"/>
+                <p>실행 시, 제페토 캐릭터의 게임 오브젝트 이름이 로그로 출력됩니다.</p>
+            </step>
+            <step>
+                <img alt="revive-4.png" src="revive-4.png"/>
+                <p><path>Hierarchy</path> 윈도우에서 제페토 캐릭터 선택 시, <path>CharacterPlayer</path> 스크립트가 추가된 것도 볼 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="탈락 지점 설정하기">
+        <procedure>
+            <step>
+                <img alt="revive-5.png" src="revive-5.png"/>
+                <p>씬에 빈 오브젝트를 추가하고, 이름을 <path>Regen</path> 위치를 (0, 0, 0)으로 초기화 해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="revive-6.png" src="revive-6.png"/>
+                <p><path>BoxCollider</path> 를 추가해주고, <path>Is Trigger</path> 를 체크합니다.</p>
+                <p>전체 맵을 커버할 수 있도록 <path>Size</path> 를 (300, 10, 300)으로 변경해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="revive-7.png" src="revive-7.png"/>
+                <p>충돌체가 이동할 영역 전체를 포함하고 있는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="revive-8.png" src="revive-8.png"/>
+                <p>충돌체가 추락을 감지하는 위치가 되도록 <path>Position</path> 값을 (0, -20, 0)으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="revive-9.png" src="revive-9.png"/>
+                <p>추락하는 위치에 충돌체가 위치된 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="캐릭터 인식하기">
+        <procedure>
+            <step>
+                <img alt="revive-10.png" src="revive-10.png"/>
+                <p><path>Script | SugarLand</path> 경로에 <path>RegenChecker</path> 스크립트를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="revive-11.png" src="revive-11.png"/>
+                <p><path>Regen</path> 게임 오브젝트에 <path>RegenChecker</path> 스크립트를 추가합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Collider, LayerMask } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class RegenChecker extends ZepetoScriptBehaviour {
+
+                        OnTriggerEnter(collider: Collider) {
+                            console.log("OnTriggerEnter!!!");
+                        }
+
+                    }
+                </code-block>
+                <p><path>OnTriggerEnter</path> 메서드를 추가하고, 간단하게 로그를 출력하도록 작성합니다.</p>
+            </step>
+            <step>
+                <img alt="revive-12.png" src="revive-12.png"/>
+                <p>실행 후 캐릭터를 추락시키면, 해당 로그가 출력되는 것을 확인할 수 있습니다.</p>
+                <p>하지만, 캐릭터를 리젠시키기 위해 추락한 것이 캐릭터라는 것을 체크할 필요가 있습니다.</p>
+            </step>
+            <step>
+                <img alt="revive-13.png" src="revive-13.png"/>
+                <p>구분을 위해, <path>Layer</path> 기능을 활용할 수 있습니다.</p>
+                <p>레이어는 게임 오브젝트의 프로퍼티이며, 위 메뉴를 통해 레이어를 추가할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="revive-14.png" src="revive-14.png"/>
+                <p>레이어 메뉴에서 6번은 환경 구조물을 의미하는 Environment 로 지정하고, 7번을 캐릭터를 의미하는 Player 로 지정합니다.</p>
+            </step>
+            <step>
+                <img alt="revive-15.png" src="revive-15.png"/>
+                <p><path>environment</path> 의 레이어를 <path>Environment</path> 로 변경해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="revive-25.png" src="revive-25.png"/>
+                <p><path>Yes, change children</path> 버튼을 클릭하여, 하위 오브젝트도 모두 동일하게 레이어를 변경해 줍니다.</p>
+            </step>
+            <step>
+                <p>제페토 캐릭터의 경우 실행시 생성되는 오브젝트이기 때문에 코드를 통해 레이어를 변경해 주어야 합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { LayerMask } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            this.gameObject.layer = LayerMask.NameToLayer("Player");
+                        }
+
+                    }
+                </code-block>
+                <p>레이어 변경을 위해, <path>CharacterPlayer</path> 스크립트를 수정합니다.</p>
+                <p><path>gameObject.layer</path> 프로퍼티를 변경하여 바꿀 수 있습니다.</p>
+                <p>값은 <path>LayerMask.NameToLayer</path> 메서드를 사용해서 지정합니다.</p>
+            </step>
+            <step>
+                <img alt="revive-16.png" src="revive-16.png"/>
+                <p>실행 시, 제페토 캐릭터의 레이어가 <path>Player</path> 로 변경되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Collider, LayerMask } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class RegenChecker extends ZepetoScriptBehaviour {
+
+                        OnTriggerEnter(collider: Collider) {
+                            if (collider.gameObject.layer == LayerMask.NameToLayer("Player")) {
+                                console.log("OnTriggerEnter!!!");
+                            }
+                        }
+
+                    }
+                </code-block>
+                <p>이제 <path>RegenChecker</path> 에서 레이어를 검사하도록 코드를 추가하면, 캐릭터만 충돌을 인식하도록 설정할 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="캐릭터 초기 위치로 이동시키기">
+        <procedure>
+            <step>
+                <p>이제 캐릭터가 낙하하여 충돌 트리거에 도달하면, 캐릭터를 초기 위치로 이동시켜주어야 합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { Collider, LayerMask } from 'UnityEngine';
+                    import { ZepetoCharacter } from 'ZEPETO.Character.Controller';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class RegenChecker extends ZepetoScriptBehaviour {
+
+                        OnTriggerEnter(collider: Collider) {
+                            if (collider.gameObject.layer == LayerMask.NameToLayer("Player")) {
+                                var zepetoCharacter = collider.gameObject.GetComponent<ZepetoCharacter>();
+                            }
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p>제페토 캐릭터의 위치를 변경하는 기능은 <path>ZepetoCharacter</path> 스크립트에서 제공해주고 있습니다.</p>
+                <p><path>collider.gameObject</path> 프로퍼티로 충돌한 오브젝트의 게임 오브젝트에 접근할 수 있습니다.</p>
+                <p>또한, <path>gameObject.GetComponent</path> 를 통해 게임 오브젝트의 컴포넌트를 가져올 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    OnTriggerEnter(collider: Collider) {
+                        if (collider.gameObject.layer == LayerMask.NameToLayer("Player")) {
+                            var zepetoCharacter = collider.gameObject.GetComponent<ZepetoCharacter>();
+                            zepetoCharacter.Teleport(Vector3.zero, Quaternion.identity);
+                        }
+                    }
+                    ]]>
+                </code-block>
+                <p><path>ZepetoCharacter</path> 스크립트의 <path>Teleport</path> 메서드를 통해 캐릭터를 이동시킬 수 있습니다.</p>
+                <p><path>Vector3.zero</path> 와 <path>Quaternion.identity</path> 는 각각 Position, Rotation (0, 0, 0)을 의미합니다.</p>
+            </step>
+            <step>
+                <p>실행 후 추락 시, 초기 위치로 돌아오는 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+</topic>

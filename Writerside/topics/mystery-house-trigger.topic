@@ -3,7 +3,7 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       title="트리거 알아보기" id="mystery-house-trigger">
+       title="센서 화로 적용하기" id="mystery-house-trigger">
 
     <chapter title="트리거">
         <procedure title="화로 접근 인식시키기">

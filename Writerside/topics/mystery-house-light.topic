@@ -3,7 +3,7 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       title="라이트 알아보기" id="mystery-house-light">
+       title="어두운 분위기 연출하기" id="mystery-house-light">
 
     <chapter title="스카이 박스">
         <procedure title="스카이 박스 적용하기">

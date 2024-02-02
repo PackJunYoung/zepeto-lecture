@@ -30,4 +30,7 @@
         <toc-element topic="mystery-house-light.topic"/>
         <toc-element topic="mystery-house-trigger.topic"/>
     </toc-element>
+    <toc-element topic="SugarLand.topic">
+        <toc-element topic="revive.topic"/>
+    </toc-element>
 </instance-profile>
