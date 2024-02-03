@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="레이캐스트 알아보기" id="raycast">
+
+    <chapter title="레이캐스트란?">
+        <img alt="raycast-1.png" src="raycast-1.png"/>
+        <p>지금까지 충돌 체크는 충돌체끼리 접촉을 통해 인식할 수 있었습니다.</p>
+        <p>레이캐스트는 임의의 원점에서 임의의 방향으로 레이저를 발사하여, 가장 먼저 충돌하는 물체를 인식하는 기법입니다.</p>
+        <p>레이캐스트를 사용하면, 매우 다양한 기능을 구현할 수 있습니다. 그 중에서 바닥으로 레이캐스트를 발사하여 발 밑에 무엇이 있는지 체크하는 기능을 추가하도록 하겠습니다.</p>
+    </chapter>
+
+    <chapter title="레이캐스트 원리">
+        <img alt="raycast-2.png" src="raycast-2.png"/>
+        <p>레이캐스트는 원점에서 임의의 방향으로 광선을 발사하여, 가장 먼처 충돌하는 물체를 인식하는 것이라 하였습니다.</p>
+        <p>따라서, 매 프레임마다 캐릭터의 발 밑(원점)에서 아래 방향(-y)으로 광선을 발사하여 가장 먼저 충돌하는 물체를 인식하면, 캐릭터가 무엇을 밟고 있는지 체크할 수 있습니다.</p>
+    </chapter>
+
+    <chapter title="레이캐스트 로직 설명">
+        <code-block lang="typescript">
+            <![CDATA[
+            import { LayerMask, Physics, Ray, RaycastHit, Vector3 } from 'UnityEngine';
+            import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+            export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                Start() {
+                    this.gameObject.layer = LayerMask.NameToLayer("Player");
+                }
+
+                Update() {
+                    var ray = new Ray(this.transform.position, Vector3.down);
+                    var ref = $ref<RaycastHit>();
+                    if (Physics.Raycast(ray, ref, 1)) {
+                        var hitInfo = $unref(ref);
+                        var hitObj = hitInfo.collider.gameObject;
+                    }
+                }
+
+            }
+            ]]>
+        </code-block>
+        <p>위 코드는 간단하게 레이캐스트를 구현한 코드로, 제페토 캐릭터에 포함되는 <path>CharacterPlayer</path> 스크립트 컴포넌트에 구현하였습니다.</p>
+        <p>먼저 <path>Ray</path> 를 선언하여, 발사할 광선을 정의합니다. 첫 번째 매개변수는 원점의 위치이고 두 번째 매개변수는 방향을 의미합니다.</p>
+        <p>따라서, 캐릭터의 position 은 기본적으로 캐릭터의 발 밑을 의미하기 때문에 발 밑에서 시작해서 아래 방향으로 발사하는 광선을 의미합니다. (Vector3.down = new Vector3(0, -1, 0))</p>
+        <p>이후에 <path>Physics.Raycast(ray, ref, 1)</path> 로직을 통해 광선을 발사하여 충돌하는 물체가 있다면 if 문 내부로 진입하게 됩니다.</p>
+        <p>세 번째 매개변수인 1은 광선의 길이 입니다. 바로 발 밑의 물체를 확인하기 위한 용도이기 때문에 길이를 짮게 지정합니다.</p>
+        <p>이후에 <path>hitInfo</path> 에는 충돌에 대한 정보를 포함하고 그 안에는 충돌한 충돌체와 충돌체를 통해 게임 오브젝트에 접근할 수 있습니다.</p>
+    </chapter>
+
+    <chapter title="실습">
+        <procedure>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { LayerMask, Physics, Ray, RaycastHit, Vector3 } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            this.gameObject.layer = LayerMask.NameToLayer("Player");
+                        }
+
+                        Update() {
+                            var ray = new Ray(this.transform.position, Vector3.down);
+                            var ref = $ref<RaycastHit>();
+                            if (Physics.Raycast(ray, ref, 1)) {
+                                var hitInfo = $unref(ref);
+                                var hitObj = hitInfo.collider.gameObject;
+                                console.log(hitObj.name);
+                            }
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p>충돌한 오브젝트(hitObj)의 이름을 출력하는 로그를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-3.png" src="raycast-3.png"/>
+                <p>실행 후 시작 위치에서 시작합니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-4.png" src="raycast-4.png"/>
+                <p>발 밑에 있는 오브젝트의 이름이 출력됩니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-5.png" src="raycast-5.png"/>
+                <p>조금 이동해서, 큐브 위로 올라가 봅니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-6.png" src="raycast-6.png"/>
+                <p>이제 큐브의 이름인 <path>Cube</path> 가 로그로 출력되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-7.png" src="raycast-7.png"/>
+                <p>8번 레이어를 <path>Platform</path> 이라는 이름으로 지정합니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-8.png" src="raycast-8.png"/>
+                <p>큐브의 레이어를 <path>Platform</path> 으로 변경합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    Update() {
+                        var ray = new Ray(this.transform.position, Vector3.down);
+                        var ref = $ref<RaycastHit>();
+                        if (Physics.Raycast(ray, ref, 1)) {
+                            var hitInfo = $unref(ref);
+                            var hitObj = hitInfo.collider.gameObject;
+                            if (hitObj.layer == LayerMask.NameToLayer("Platform")) {
+                                console.log("on the Platform!!!");
+                            }
+                        }
+                    }
+                    ]]>
+                </code-block>
+                <p>위와 같이 레이캐스트에 충돌한 물체가 Platform 레이어 일때만 로그를 출력하도록 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="raycast-9.png" src="raycast-9.png"/>
+                <p>큐브 위에 올라가 있을 때에만 로그가 출력되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <p>발 밑에 어떤 물체가 있는지 확인이 가능하기 때문에, 잔디 위를 걸을때와 물 위를 걸을때 다른 사운드를 출력한다거나 하는 형태의 구현이 가능합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+</topic>

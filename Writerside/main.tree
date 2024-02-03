@@ -32,5 +32,8 @@
     </toc-element>
     <toc-element topic="SugarLand.topic">
         <toc-element topic="revive.topic"/>
+        <toc-element topic="move-object.topic"/>
+        <toc-element topic="raycast.topic"/>
+        <toc-element topic="move-on-platform.topic"/>
     </toc-element>
 </instance-profile>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="움직이는 물체 만들기" id="move-object">
+
+    <chapter title="움직일 오브젝트 확인">
+        <procedure>
+            <step>
+                <img alt="move-object-1.png" src="move-object-1.png"/>
+                <p><path>environment | sugarland_buildings_mintcracker, (1)</path> 두 오브젝트를 이동시킬 예정입니다.</p>
+                <p>실제로 움직일 오브젝트는 하위의 <path>CT_SL_MintCracker_01 1</path> 을 움직입니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-2.png" src="move-object-2.png"/>
+                <p>첫 번째 오브젝트는 좌우로 움직이며, 두 번째 오브젝트는 상하로 움직이도록 적용합니다.</p>
+            </step>
+            <step>
+                <img alt="move-object3.png" src="move-object3.png"/>
+                <p><path>Scene</path> 윈도우의 좌표를 보면, 좌우로 움직일 오브젝트는 x 축으로 이동해야하고, 상하로 움직일 오브젝트는 y 축으로 움직여야 되는 것을 알 수 있습니다.</p>
+                <p>기본적으로 x축은 좌우, y축은 상하, z축은 앞뒤를 나타냅니다.</p>
+            </step>
+            <step>
+                <img alt="move-object4.png" src="move-object4.png"/>
+                <p><path>Script | SugarLand</path> 경로에 좌우로 움직임을 줄 <path>HorizontalMover</path> 와 상하로 움직임을 줄 <path>VerticalMover</path> 스크립트를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-5.png" src="move-object-5.png"/>
+                <p>첫 번째 오브젝트에 <path>HorizontalMover</path> 스크립트를 추가하고, 두 번째 오브젝트에 <path>VerticalMover</path> 스크립트를 추가합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="움직이는 로직 추가">
+        <procedure>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    enum MoveDirection {
+                        Right,
+                        Left,
+                        Up,
+                        Down
+                    }
+
+                    export default class HorizontalMover extends ZepetoScriptBehaviour {
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p>현재 움직이는 방향을 나타내는 <path>MoveDirection</path> 열거형을 선언합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    enum MoveDirection {
+                        Right,
+                        Left,
+                        Up,
+                        Down
+                    }
+
+                    export default class HorizontalMover extends ZepetoScriptBehaviour {
+
+                        private direction: MoveDirection;
+
+                        Start() {
+                            this.direction = MoveDirection.Right;
+                        }
+
+                    }
+                </code-block>
+                <p><path>direction</path> 프로퍼티를 추가하고, <path>Start</path> 에서 Right 로 설정되도록 적용합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    export default class HorizontalMover extends ZepetoScriptBehaviour {
+
+                        private direction: MoveDirection;
+
+                        Start() {
+                            this.direction = MoveDirection.Right;
+                        }
+
+                        Update() {
+                            if (this.direction == MoveDirection.Right) {
+                                this.transform.Translate(new Vector3(Time.deltaTime, 0, 0));
+                            } else if (this.direction == MoveDirection.Left) {
+                                this.transform.Translate(new Vector3(-Time.deltaTime, 0, 0));
+                            }
+                        }
+
+                    }
+                </code-block>
+                <p><path>transform.Translate</path> 메서드를 사용하여 오브젝트를 이동시킵니다.</p>
+                <p>Right 방향일 때는 +x 값으로, Left 방향일 때는 -x 값으로 위치를 변경합니다.</p>
+                <p>매 프레임마다 이동해야하기 때문에 <path>Update</path> 메서드에서 동작하며, Time.deltaTime 을 사용합니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-6.png" src="move-object-6.png"/>
+                <p>실행 시, Position 값은 변하지만 실제로 오브젝트가 움직이지 않는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-7.png" src="move-object-7.png"/>
+                <p>오브젝트가 실제로 움직이지 않는 것은 해당 오브젝트가 <path>static</path> 으로 지정되어 있기 때문입니다.</p>
+                <p>움직임이 필요한 두 오브젝트에 <path>static</path> 을 체크 해제 합니다.</p>
+                <tip>static 은 물체가 움직이지 않는다는 제약을 걸어두어 움직임에 필요한 연산을 하지 않아 성능에 도움이 되는 옵션입니다. 보통 배경에 주로 사용됩니다.</tip>
+            </step>
+            <step>
+                <img alt="move-object-8.png" src="move-object-8.png"/>
+                <p>발판이 서서히 움직이는 것을 확인할 수 있습니다.</p>
+                <p>속도가 너무 느리기 때문에, 속도 값을 추가하도록 하겠습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    export default class HorizontalMover extends ZepetoScriptBehaviour {
+
+                        public speed: number;
+
+                        private direction: MoveDirection;
+
+                        Start() {
+                            this.direction = MoveDirection.Right;
+                        }
+
+                        Update() {
+                            if (this.direction == MoveDirection.Right) {
+                                this.transform.Translate(new Vector3(Time.deltaTime * this.speed, 0, 0));
+                            } else if (this.direction == MoveDirection.Left) {
+                                this.transform.Translate(new Vector3(-Time.deltaTime * this.speed, 0, 0));
+                            }
+                        }
+
+                    }
+                </code-block>
+                <p>public 프로퍼티로 <path>speed</path> 를 추가하고, 각 deltaTime 에 곱해줍니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-9.png" src="move-object-9.png"/>
+                <p>스크립트 컴포넌트에 추가된 <path>speed</path> 프로퍼티에 값을 입력합니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-10.png" src="move-object-10.png"/>
+                <p>훨씬 빠르게 이동되는 것을 확인할 수 있습니다.</p>
+                <p>현재는 한 방향으로만 계속 이동하고 있어, 일정 임계치가 되면 방향을 바꿔주는 작업이 필요합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="방향 바꿔주는 로직 추가">
+        <procedure>
+            <step>
+                <code-block lang="typescript">
+                    export default class HorizontalMover extends ZepetoScriptBehaviour {
+
+                        public minX: number;
+                        public maxX: number;
+                        public speed: number;
+
+                        private direction: MoveDirection;
+
+                        Start() {
+                            this.direction = MoveDirection.Right;
+                        }
+
+                        Update() {
+                            if (this.direction == MoveDirection.Right) {
+                                this.transform.Translate(new Vector3(Time.deltaTime * this.speed, 0, 0));
+                            } else if (this.direction == MoveDirection.Left) {
+                                this.transform.Translate(new Vector3(-Time.deltaTime * this.speed, 0, 0));
+                            }
+                        }
+
+                    }
+                </code-block>
+                <p>방향을 바꿀 임계치를 지정할 <path>minX, maxX</path> public 프로퍼티를 선언합니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-111.png" src="move-object-111.png"/>
+                <p>실제 오브젝트를 이동시켜보고 Transform 의 x 값을 보고 적당한 임계값을 지정합니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-13.png" src="move-object-13.png"/>
+                <p>결정한 임계값을 스크립트 컴포넌트에 입력해줍니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    Update() {
+                        if (this.direction == MoveDirection.Right) {
+                            this.transform.Translate(new Vector3(Time.deltaTime * this.speed, 0, 0));
+                        } else if (this.direction == MoveDirection.Left) {
+                            this.transform.Translate(new Vector3(-Time.deltaTime * this.speed, 0, 0));
+                        }
+
+                        if (this.transform.position.x > this.maxX) {
+                            this.direction = MoveDirection.Left;
+                        } else if (this.transform.position.x < this.minX) {
+                            this.direction = MoveDirection.Right;
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p><path>Update</path> 메서드에서 현재 위치와 임계값을 체크하며, 임계값을 넘어갈 시 <path>direction</path> 을 반대 방향으로 바꿔줍니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-14.png" src="move-object-14.png"/>
+                <p>오브젝트가 임계점에 도달하면 반대 방향으로 이동하는 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="VerticalMover 도 적용하기">
+        <procedure>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { Time, Vector3 } from 'UnityEngine';
+                    import { MoveDirection } from 'UnityEngine.EventSystems';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class VerticalMover extends ZepetoScriptBehaviour {
+
+                        public minY: number;
+                        public maxY: number;
+                        public speed: number;
+
+                        private direction: MoveDirection;
+
+                        Start() {
+                            this.direction = MoveDirection.Up;
+                        }
+
+                        Update() {
+                            if (this.direction == MoveDirection.Up) {
+                                this.transform.Translate(new Vector3(0, Time.deltaTime * this.speed, 0));
+                            } else if (this.direction == MoveDirection.Down) {
+                                this.transform.Translate(new Vector3(0, -Time.deltaTime * this.speed, 0));
+                            }
+
+                            if (this.transform.position.y > this.maxY) {
+                                this.direction = MoveDirection.Down;
+                            } else if (this.transform.position.y < this.minY) {
+                                this.direction = MoveDirection.Up;
+                            }
+
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p>HorizontalMover 와 유사한 형태로 VerticalMover 스크립트도 작성해 줍니다.</p>
+                <p>Right, Left 는 Up, Down 으로 바꾸고, x 값을 변경하던 부분은 y 값으로 변경됩니다.</p>
+                <p>MoveDirection 열거형은 HorizontalMover 에 선언했던 것을 같이 사용할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-15.png" src="move-object-15.png"/>
+                <p>적당한 프로퍼티 값도 입력해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="move-object-16.png" src="move-object-16.png"/>
+                <p>두 번째 오브젝트도 상하로 잘 이동되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <p>움직이는 오브젝트 위로 올라갔을 때, 캐릭터가 오브젝트를 따라 이동하지 않고 가만히 있다가 낙하하는 것을 볼 수 있습니다.</p>
+                <p>오브젝트를 따라 캐릭터가 이동되려면 추가 작업이 필요하며, <path>레이캐스트</path> 라는 기능을 사용할 예정입니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+</topic>

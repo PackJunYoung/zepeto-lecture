@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="움직이는 물체와 같이 이동하기" id="move-on-platform">
+
+    <chapter title="움직이는 물체와 같이 움직이지 않는 이유">
+        <procedure>
+            <step>
+                <img alt="on-platform.png" src="on-platform.png"/>
+                <img alt="on-platform-1.png" src="on-platform-1.png"/>
+                <p><path>Cube</path> 의 위치를 이동시켜, 움직이는 물체 위에 올라오도록 합니다.</p>
+            </step>
+            <step>
+                <p>실행 후, 큐브의 상태를 관찰합니다.</p>
+            </step>
+            <step>
+                <img alt="on-platform-2.png" src="on-platform-2.png"/>
+                <p>큐브는 움직이는 물체를 따라서 움직이지 않습니다.</p>
+                <p>캐릭터와 달리 큐브가 땅으로 떨어지지 않는 이유는 큐브는 중력이 적용되는 상태가 아니기 때문입니다.</p>
+                <tip>중력은 제페토 캐릭터 스크립트에서 자동으로 적용됩니다.</tip>
+            </step>
+            <step>
+                <img alt="on-platform-3.png" src="on-platform-3.png"/>
+                <p>이번에는 큐브를 움직이는 물체의 하위로 계층을 변경한 뒤, 실행해 봅니다.</p>
+            </step>
+            <step>
+                <img alt="on-platform-4.png" src="on-platform-4.png"/>
+                <p>큐브가 움직이는 물체와 같이 움직이는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <p>하위 오브젝트가 되면, 상대 좌표를 유지하기 때문에 같이 이동하게 되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <p>결국, 캐릭터가 움직이는 오브젝트를 밟고 있으면 오브젝트의 하위 오브젝트로 변경하고, 밟고 있지 않다면 하위 오브젝트가 아닌 상태로 변경하면 됩니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="움직이는 물체 위에 있는지 체크하기">
+        <procedure>
+            <step>
+                <img alt="on-platform-5.png" src="on-platform-5.png"/>
+                <img alt="on-platform-6.png" src="on-platform-6.png"/>
+                <p>큐브는 원래 상태로 되돌려 놓습니다.</p>
+            </step>
+            <step>
+                <img alt="on-platform-7.png" src="on-platform-7.png"/>
+                <p>움직이는 물체의 레이어를 <path>Platform</path> 으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="on-platform-8.png" src="on-platform-8.png"/>
+                <p>실행 후 움직이는 물체 위로 올라가면, 로그가 출력되며 위에 올라갔음 인식하는 것을 볼 수 있습니다.</p>
+                <p>하지만, 하위 오브젝트로 변경시키지 않았기 때문에 추락합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="움직이는 물체 위에 있을때 상태 변경하기">
+        <procedure>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    Update() {
+                        var ray = new Ray(this.transform.position, Vector3.down);
+                        var ref = $ref<RaycastHit>();
+                        if (Physics.Raycast(ray, ref, 1)) {
+                            var hitInfo = $unref(ref);
+                            var hitObj = hitInfo.collider.gameObject;
+                            if (hitObj.layer == LayerMask.NameToLayer("Platform")) {
+                                if (this.transform.parent != hitObj.transform) {
+                                    this.transform.SetParent(hitObj.transform);
+                                }
+                            }
+                        }
+                    }
+                    ]]>
+                </code-block>
+                <p><path>transform.SetParent</path> 메서드를 사용하면, 오브젝트의 계층(부모-자식 관계)를 변경할 수 있습니다.</p>
+                <p>해당 오브젝트의 부모를 <path>hitObj.transform</path> 으로 변경한다는 의미로 움직이는 물체의 하위 오브젝트(자식)으로 변경됩니다.</p>
+            </step>
+            <step>
+                <img alt="on-platform-9.png" src="on-platform-9.png"/>
+                <p>실행 시, 움직이는 오브젝트(플랫폼) 위로 올라가면, 플랫폼의 자식으로 계층이 변경된 것을 확인할 수 있습니다.</p>
+                <p>이미 부모가 충돌한 플랫폼으로 변경되면 계속 변경시켜줄 팔요는 없기 때문에, if 문으로 체크하여 한 번만 바꿔줍니다.</p>
+                <p>하지만, 플랫폼에서 벗어났을 때, 계층 관계가 해제되지 않으면서 문제가 발생합니다.</p>
+                <tip>if 문에서 == 는 같다는 의미이고, != 는 다르다는 의미입니다.</tip>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    Update() {
+                        var rayLength = this.characterController.height * 0.5;
+                        var ray = new Ray(this.transform.position, Vector3.down);
+                        var ref = $ref<RaycastHit>();
+                        if (Physics.Raycast(ray, ref, rayLength)) {
+                            var hitInfo = $unref(ref);
+                            var hitObj = hitInfo.collider.gameObject;
+                            if (hitObj.layer == LayerMask.NameToLayer("Platform")) {
+                                if (this.transform.parent != hitObj.transform) {
+                                    this.transform.SetParent(hitObj.transform);
+                                }
+                                return;
+                            }
+                        }
+
+                        if (this.transform.parent != null) {
+                            this.transform.parent = null;
+                        }
+                    }
+                    ]]>
+                </code-block>
+                <p>만약 플랫폼에 충돌해서 부모를 바꿔줘야 되는 경우가 아닌데 부모가 적용되어있는 경우 부모를 해제하는 코드를 추가합니다.</p>
+                <p><path>null</path> 은 아무것도 없는 빈 것을 의미하며, 부모가 null 인 경우는, 부모가 없이 최상위 오브젝트가 된다는 의미입니다.</p>
+                <p>플랫폼 위에 있는 경우에는 아래 로직으로 들어가지 않고 넘어가도록 <path>return</path> 을 추가해 줍니다.</p>
+            </step>
+            <step>
+                실행 시, 플랫폼을 따라 캐릭터가 이동하는 것을 확인할 수 있습니다.
+            </step>
+        </procedure>
+    </chapter>
+</topic>
