@@ -91,10 +91,9 @@
                 <code-block lang="typescript">
                     <![CDATA[
                     Update() {
-                        var rayLength = this.characterController.height * 0.5;
                         var ray = new Ray(this.transform.position, Vector3.down);
                         var ref = $ref<RaycastHit>();
-                        if (Physics.Raycast(ray, ref, rayLength)) {
+                        if (Physics.Raycast(ray, ref, 1)) {
                             var hitInfo = $unref(ref);
                             var hitObj = hitInfo.collider.gameObject;
                             if (hitObj.layer == LayerMask.NameToLayer("Platform")) {
@@ -116,7 +115,94 @@
                 <p>플랫폼 위에 있는 경우에는 아래 로직으로 들어가지 않고 넘어가도록 <path>return</path> 을 추가해 줍니다.</p>
             </step>
             <step>
-                실행 시, 플랫폼을 따라 캐릭터가 이동하는 것을 확인할 수 있습니다.
+                실행 시, 캐릭터가 플랫폼 위에 올라가 있을 때 같이 Position 이 변경되는것이 확인이 되지만, 캐릭터가 실제로 같이 이동하진 않습니다.
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="FixedUpdate">
+        <procedure>
+            <step>
+                <p>위와 같은 현상이 발생하는 이유는 <path>Update</path> 메서드는 매 프레임 단위로 이것은 화면에 랜더링하는 것과 관련이 있습니다.</p>
+                <p>움직이는 물체와 같이 Transform 과 Position 을 변경하고 체크하는 부분에서는 물리 연산을 체크하는 단위인 <path>FixedUpdate</path> 에서 진행하는 것이 더 좋습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { CharacterController, LayerMask, Physics, Ray, RaycastHit, Vector3 } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            this.gameObject.layer = LayerMask.NameToLayer("Player");
+                        }
+
+                        FixedUpdate() {
+                            var ray = new Ray(this.transform.position, Vector3.down);
+                            var ref = $ref<RaycastHit>();
+                            if (Physics.Raycast(ray, ref, 1)) {
+                                var hitInfo = $unref(ref);
+                                var hitObj = hitInfo.collider.gameObject;
+                            if (hitObj.layer == LayerMask.NameToLayer("Platform")) {
+                                    if (this.transform.parent != hitObj.transform) {
+                                        this.transform.SetParent(hitObj.transform);
+                                    }
+                                    return;
+                                }
+                            }
+
+                            if (this.transform.parent != null) {
+                                this.transform.parent = null;
+                            }
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p>먼저, 레이캐스트를 발생시키고 Transform 계층을 변경시켰던 <path>CharacterPlayer</path> 부분을 <path>FixedUpdate</path> 로 변경합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { Time, Vector3 } from 'UnityEngine';
+                    import { MoveDirection } from 'UnityEngine.EventSystems';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class VerticalMover extends ZepetoScriptBehaviour {
+
+                        public minY: number;
+                        public maxY: number;
+                        public speed: number;
+
+                        private direction: MoveDirection;
+
+                        Start() {
+                            this.direction = MoveDirection.Up;
+                        }
+
+                        FixedUpdate() {
+                            if (this.direction == MoveDirection.Up) {
+                                this.transform.Translate(new Vector3(0, Time.fixedDeltaTime * this.speed, 0));
+                            } else if (this.direction == MoveDirection.Down) {
+                                this.transform.Translate(new Vector3(0, -Time.fixedDeltaTime * this.speed, 0));
+                            }
+
+                            if (this.transform.position.y > this.maxY) {
+                                this.direction = MoveDirection.Down;
+                            } else if (this.transform.position.y < this.minY) {
+                                this.direction = MoveDirection.Up;
+                            }
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <p>플랫폼의 움직이는 로직이 있는 부분도 <path>FixedUpdate</path> 로 변경합니다.</p>
+                <p><path>FixedUpdate</path> 에서는 <path>Time.fixedDeltaTime</path> 을 사용합니다.</p>
+            </step>
+            <step>
+                <p>실행 시, 정상적으로 동작하는 것을 확인할 수 있습니다.</p>
             </step>
         </procedure>
     </chapter>
