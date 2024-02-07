@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="PartyRoom" id="party-room">
+
+    <chapter title="최종 결과물">
+        <img alt="party-room-1.png" src="party-room-1.png"/>
+        <list>
+            <li>스크린샷을 찍고 저장하거나 공유하는 로직을 작성합니다.</li>
+            <li>제페토 캐릭터에 제스쳐를 동작시키는 로직을 작성합니다.</li>
+            <li>제페토 캐릭터가 오브젝트와 상호작용하는 로직을 작성합니다.</li>
+            <li>사운드와 진동을 발생시키는 로직을 작성합니다.</li>
+        </list>
+    </chapter>
+
+    <chapter title="브랜치 설명">
+        <img alt="party-room-2.png" src="party-room-2.png"/>
+        <list>
+            <li><path>PartyRoom_complete</path> 브랜치는 최종 완성 브랜치 입니다.</li>
+            <li><path>PartyRoom_start</path> 브랜치는 초기 세팅만 적용된 브랜치 입니다.</li>
+        </list>
+    </chapter>
+
+    <chapter title="적용된 에셋">
+        <img alt="party-room-3.png" src="party-room-3.png"/>
+        <p>ZEPETO Assets 중 <path>Party Room</path> 에셋을 사용합니다.</p>
+        <img alt="party-room-4.png" src="party-room-4.png"/>
+        <p>사운드 적용을 위해 무료 에셋 <path>Casual Game Fx One Shot</path> 을 사용합니다.</p>
+    </chapter>
+
+    <chapter title="초기 세팅">
+        <img alt="party-room-5.png" src="party-room-5.png"/>
+        <p>기본 플레인에 상호작용할 가구 세 가지가 전방에 배치되어 있습니다.</p>
+    </chapter>
+</topic>

@@ -36,4 +36,11 @@
         <toc-element topic="raycast.topic"/>
         <toc-element topic="move-on-platform.topic"/>
     </toc-element>
+    <toc-element topic="party-room.topic">
+        <toc-element topic="party-room-ui.topic"/>
+        <toc-element topic="party-room-screenshot.topic"/>
+        <toc-element topic="party-room-gesture.topic"/>
+        <toc-element topic="party-room-interaction.topic"/>
+        <toc-element topic="party-room-sound.topic"/>
+    </toc-element>
 </instance-profile>
