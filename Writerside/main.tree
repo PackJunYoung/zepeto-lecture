@@ -24,7 +24,9 @@
         <toc-element topic="callback-function.topic"/>
         <toc-element topic="list-and-map.topic"/>
     </toc-element>
-    <toc-element topic="git-clone.topic"/>
+    <toc-element topic="git-clone.topic">
+        <toc-element topic="git-coding-start.topic"/>
+    </toc-element>
     <toc-element topic="mystery-house.topic">
         <toc-element topic="mystery-house-collider.topic"/>
         <toc-element topic="mystery-house-light.topic"/>
