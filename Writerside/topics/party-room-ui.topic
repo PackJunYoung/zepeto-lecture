@@ -5,5 +5,460 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="유아이 적용하기" id="party-room-ui">
 
-    <p>Start typing here...</p>
+    <chapter title="해상도 알아보기">
+        <deflist>
+            <def title="해상도란?">
+                <list>
+                    <li>해상도는 디지털 이미지나 화면에서 픽셀의 수를 나타내는 측정 단위입니다.</li>
+                    <li>일반적으로 가로 픽셀 수 x 세로 픽셀 수로 표시됩니다.</li>
+                    <li>해상도가 높을수록 이미지나 화면의 세부 정보가 더 많이 표현됩니다.</li>
+                </list>
+            </def>
+        </deflist>
+
+        <deflist>
+            <def title="모바일 기기별 다양한 해상도">
+                <list>
+                    <li>모바일 기기는 스마트폰부터 태블릿까지 다양한 크기와 종류의 디스플레이를 가지며, 각 디스플레이는 다른 해상도를 가지고 있습니다.</li>
+                    <li>따라서, 모바일 앱 개발자는 다양한 해상도를 고려해서 앱을 개발해야 합니다.</li>
+                    <li>모바일 디바이스별 해상도 보기 - <a href="https://circumeo.tistory.com/51"/> </li>
+                </list>
+            </def>
+        </deflist>
+
+        <procedure title="실습">
+            <step>
+                <img alt="party-room-ui.png" src="party-room-ui.png"/>
+                <p>위 링크 페이지에서 한 가지 디바이스 해상도를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-1.png" src="party-room-ui-1.png"/>
+                <p>Game 윈도우에서 <path>Free Aspect | +</path> 버튼을 클릭합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-2.png" src="party-room-ui-2.png"/>
+                <p>위에서 선택한 디바이스의 이름과 해상도를 입력합니다.</p>
+                <p>제작하는 제페토 앱은 가로형이기 때문에 width 와 height 를 반대로 입력합니다.</p>
+                <p>Label 은 입력하지 않아도 되며, 입력하지 않으면 해상도가 이름이 됩니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-3.png" src="party-room-ui-3.png"/>
+                <p>Free Aspect 라고 되어있던 부분이 지정한 Label 로 변경되고, Game 윈도우의 해상도도 바뀐 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-11.png" src="party-room-ui-11.png"/>
+                <p>이제 또 다른 디바이스의 해상도 하나를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-12.png" src="party-room-ui-12.png"/>
+                <p>동일하게 해상도 설정을 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-13.png" src="party-room-ui-13.png"/>
+                <p>새로 추가한 해상도로 Game 윈도우가 출력되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-ui-14.png" src="party-room-ui-14.png"/>
+                <p>드롭박스의 선택을 통해 간단하게 해상도를 변경해가며 확인할 수 있습니다.</p>
+                <p>두 예제 해상도는 해상도의 차이를 확연하게 보여주기 위해, 차이가 큰 해상도로 설정하였습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="앵커 알아보기">
+        <deflist>
+            <def title="앵커란?">
+                <list>
+                    <li>유니티에서 앵커(Anchor)는 유아이 요소를 부모 컨테이너에 상대적으로 위치시키는데 사용되는 개념입니다.</li>
+                    <li>앵커를 통해 다양한 화면 해상도나 크기에 대응하여 유아이를 유연하게 배치할 수 있습니다.</li>
+                    <li>앵커는 RectTransform 컴포넌트를 통해 조정됩니다.</li>
+                </list>
+            </def>
+        </deflist>
+        <procedure title="실습">
+            <step>
+                <img alt="party-room-anchor-1.png" src="party-room-anchor-1.png"/>
+                <p><path>Hierarchy | 마우스 우클릭 | UI | Button</path> 메뉴를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-2.png" src="party-room-anchor-2.png"/>
+                <p>버튼을 선택해보면, 다른 오브젝트는 <path>Transform</path> 컴포넌트가 있는 반면에 <path>RectTransform</path> 컴포넌트를 가지고 있는 것을 확인할 수 있습니다.</p>
+                <p>Canvas 하위에 있는 유아이 오브젝트들은 <path>Transform</path> 컴포넌트 대신에 유아이 기능이 추가된 <path>RectTransform</path> 을 갖게 됩니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-3.png" src="party-room-anchor-3.png"/>
+                <p>화면 좌상단에 위치하도록 <path>PosX, PosY, Width, Height</path> 값을 변경해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-4.png" src="party-room-anchor-4.png"/>
+                <p>Game 윈도우에서 확인 시, 좌상단에 위치하는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-5.png" src="party-room-anchor-5.png"/>
+                <p>해상도를 다른 해상도로 변경해 봅니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-6.png" src="party-room-anchor-6.png"/>
+                <p>해상도를 변경하면, 버튼이 사라지거나 이상하게 출력되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-7.png" src="party-room-anchor-7.png"/>
+                <p>Scene 윈도우에서 확인 시, 화면 영역을 벗어나 버린 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <p>유아이 오브젝트는 위치와 크기가 픽셀 단위로 출력되기 때문에 해상도에 따라 출력되는 모습이 크게 다를 수 있습니다.</p>
+                <p>해상도의 크기에 따라 유아이의 크기에 차이가 있기 때문에, 여러 해상도를 고려한 적절한 크기로 설정해야 합니다.</p>
+                <p>유아이의 위치 또한 해상도에 영향을 받는데 좌상단, 우하단과 같이 기준을 변경하는 앵커를 사용하게 됩니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-8.png" src="party-room-anchor-8.png"/>
+                <p>버튼의 RectTransform 을 보면, <path>Anchors</path> 에 0.5 값이 입력되어 있는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-9.png" src="party-room-anchor-9.png"/>
+                <p>0.5는 가로의 중간, 세로의 중간 부분을 의미하며 화면에 초점같이 생긴 모양이 앵커를 의미합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-10.png" src="party-room-anchor-10.png"/>
+                <p>그리고 <path>PosX, PosY</path> 는 앵커를 기준으로 어느 위치에 있는지의 좌표를 의미합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-11.png" src="party-room-anchor-11.png"/>
+                <p>따라서 (0, 0)으로 변경 시, 화면 영역의 중간에 버튼이 위치하는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-12.png" src="party-room-anchor-12.png"/>
+                <p>이제 Anchors 의 Min, Max 모두 (0, 1)로 값을 변경해 봅니다.</p>
+                <p>(0, 0)이었던 PosX, PosY 가 같이 변경되는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-13.png" src="party-room-anchor-13.png"/>
+                <p>Scene 윈도우를 보면, 초점같이 생긴 표시의 위치가 이동된 것을 볼 수 있습니다.</p>
+                <p>기준점의 위치가 변경되면서 기준점에 대한 위치가 변경되었기 때문에 PosX와 PosY의 값도 같이 변경된 것입니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-14.png" src="party-room-anchor-14.png"/>
+                <p>PosX, PosY를 다시 (0, 0)으로 변경하면 이제 좌상단에 정확하게 위치하는 모습을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-15.png" src="party-room-anchor-15.png"/>
+                <p>이번에는 Pivot 값을 (0, 1)로 변경해 봅니다.</p>
+                <p>이번에도 PosX, PosY 값이 같이 변경되는 것을 볼 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-16.png" src="party-room-anchor-16.png"/>
+                <p>이번에는 버튼에 있던 화살표가 버튼의 중간이 아니라 좌상단에 위치하는 것을 볼수 있습니다.</p>
+                <p>Pivot 은 이와같이 해당 오브젝트의 기준점을 변경하는 것을 나타냅니다.</p>
+                <tip>
+                    <img alt="party-room-anchor-17.png" src="party-room-anchor-17.png"/>
+                    <p>위와 같은 모습으로 출력되기 위해서는, 기즈모 설정을 이미지와 같이 설정해주어야 합니다.</p>
+                </tip>
+            </step>
+            <step>
+                <img alt="party-room-anchor-18.png" src="party-room-anchor-18.png"/>
+                <p>한번 더, PosX와 PosY를 (0, 0)으로 변경하면, 이제 좌상단에 버튼이 화면 영역안에 다 들어오는 형태가 됩니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-19.png" src="party-room-anchor-19.png"/>
+                <p>이 상태에서 이제 다른 해상도로 변경해 봅니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-anchor-20.png" src="party-room-anchor-20.png"/>
+                <p>해상도가 달라져도 버튼의 위치는 항상 좌상단에 위치하는 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="스크린샷 관련 버튼 추가하기">
+        <deflist>
+            <def title="스크린샷 기능들">
+                <list>
+                    <li>제페토에서 제공하는 스크린샷 관련 기능은 스크린샷 저장, 공유, 피드남기기 세 가지 입니다.</li>
+                    <li>저장은 기기에 스크린샷을 저장합니다.</li>
+                    <li>공유는 스크린샷을 공유하는 메뉴를 출력하며, 공유를 진행합니다.</li>
+                    <li>피드남기기는 스크린샷을 제페토 피드로 남깁니다.</li>
+                </list>
+            </def>
+        </deflist>
+
+        <procedure title="실습 - 버튼 추가하기">
+            <step>
+                <img alt="party-room-screen-ui-1.png" src="party-room-screen-ui-1.png"/>
+                <p>먼저, 버튼의 크기를 적당하게 (100, 100)으로 변경해 줍니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-2.png" src="party-room-screen-ui-2.png"/>
+                <p>PosX, PosY에 (50, -50) 값을 입력하여 좌상단에서 약간 떨어지게 만들어 줍니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-3.png" src="party-room-screen-ui-3.png"/>
+                <p>위와 같이 좌상단에서 약간 떨어진 위치에 있는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-4.png" src="party-room-screen-ui-4.png"/>
+                <p>버튼 하위의 Text 에 <path>Text</path> 와 <path>FontSize</path> 를 변경해줍니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-5.png" src="party-room-screen-ui-5.png"/>
+                <p>save 버튼을 추가하였습니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-6.png" src="party-room-screen-ui-6.png"/>
+                <p>버튼을 두개 더 추가해야되기 때문에, save 버튼을 복사 붙여넣기를 통해 두개 복제합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-7.png" src="party-room-screen-ui-7.png"/>
+                <p>복제한 두 버튼의 PosX 값을 각각 200, 350으로 변경하여 버튼을 떨어뜨려 줍니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-8.png" src="party-room-screen-ui-8.png"/>
+                <p>복제한 두 버튼의 Text 를 share, feed 로 변경해 줍니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="실습 - 스크립트 추가하기">
+            <step>
+                <img alt="party-room-screen-ui-9.png" src="party-room-screen-ui-9.png"/>
+                <p><path>Assets | Script | PartyRoom</path> 경로에 <path>UiController</path> 이름의 스크립트를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-10.png" src="party-room-screen-ui-10.png"/>
+                <p>버튼 위의 최상단인 <path>Canvas</path> 오브젝트에 <path>UiController</path> 스크립트를 추가합니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Button } from 'UnityEngine.UI';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiController extends ZepetoScriptBehaviour {
+
+                        public saveScreenShotBtn: Button;
+                        public shareScreenShotBtn: Button;
+                        public feedScreenShotBtn: Button;
+
+                        Start() {
+
+                        }
+
+                    }
+                </code-block>
+                <p>버튼을 나타내는 public 프로퍼티 세 개를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screen-ui-11.png" src="party-room-screen-ui-11.png"/>
+                <p>Inspector 윈도우에서 각 버튼을 연결해 줍니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Button } from 'UnityEngine.UI';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiController extends ZepetoScriptBehaviour {
+
+                        public saveScreenShotBtn: Button;
+                        public shareScreenShotBtn: Button;
+                        public feedScreenShotBtn: Button;
+
+                        Start() {
+                            this.saveScreenShotBtn.onClick.AddListener(() => {
+                                // save
+                            });
+                            this.shareScreenShotBtn.onClick.AddListener(() => {
+                                // share
+                            });
+                            this.feedScreenShotBtn.onClick.AddListener(() => {
+                                // feed
+                            });
+                        }
+
+                    }
+                </code-block>
+                <p>버튼에 이벤트를 붙여주는 코드를 추가합니다.</p>
+                <p>추후에 해당 기능을 적용할 예정입니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="제스처 관련 버튼 추가하기">
+        <deflist>
+            <def title="제스처 기능 적용">
+                <list>
+                    <li>제페토에서는 캐릭터의 다양한 제스처를 기본으로 제공합니다.</li>
+                    <li>다양한 제스처 중 한가지를 랜덤으로 진행하는 버튼을 추가합니다.</li>
+                    <li>제스처 중에는 반복 재생되어 기본 상태로 되돌아오지 않는 모션도 있으며, 제스처 중에는 이동이 불가능합니다.</li>
+                    <li>따라서, 제스처를 취소해야할 필요가 있으며 해당 버튼도 같이 추가합니다.</li>
+                </list>
+            </def>
+        </deflist>
+
+        <procedure title="실습 - 버튼 추가하기">
+            <step>
+                <img alt="party-room-screenshot-ui-12.png" src="party-room-screenshot-ui-12.png"/>
+                <p>버튼을 복제하여 두 개 더 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-13.png" src="party-room-screenshot-ui-13.png"/>
+                <p>위치를 <path>(50, -250)</path>, <path>(200, -250)</path> 으로 변경하여, 간격을 만들어 줍니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-14.png" src="party-room-screenshot-ui-14.png"/>
+                <p>버튼 내부의 텍스트를 <path>play</path>, <path>stop</path> 으로 변경합니다.</p>
+            </step>
+        </procedure>
+
+        <procedure title="실습 - 스크립트 추가하기">
+            <step>
+                <code-block lang="typescript">
+                    import { Button } from 'UnityEngine.UI';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiController extends ZepetoScriptBehaviour {
+
+                        public saveScreenShotBtn: Button;
+                        public shareScreenShotBtn: Button;
+                        public feedScreenShotBtn: Button;
+                        public playGestureBtn: Button;
+                        public stopGestureBtn: Button;
+
+                        Start() {
+                            this.saveScreenShotBtn.onClick.AddListener(() => {
+                                // save
+                            });
+                            this.shareScreenShotBtn.onClick.AddListener(() => {
+                                // share
+                            });
+                            this.feedScreenShotBtn.onClick.AddListener(() => {
+                                // feed
+                            });
+                            this.playGestureBtn.onClick.AddListener(() => {
+                                // play gesture
+                            });
+                            this.stopGestureBtn.onClick.AddListener(() => {
+                                // stop gesture
+                            });
+                        }
+
+                    }
+                </code-block>
+                <p><path>playGestureBtn</path>, <path>stopGestureBtn</path> Button 프로퍼티를 추가합니다.</p>
+                <p>Start 에 해당 버튼 클릭 이벤트 로직을 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-15.png" src="party-room-screenshot-ui-15.png"/>
+                <p>UiController 의 스크립트에 해당 버튼을 연결해 줍니다.</p>
+            </step>
+        </procedure>
+    </chapter>
+
+    <chapter title="상호작용 관련 버튼 추가하기">
+        <deflist>
+            <def title="상호작용 동작 방식">
+                <list>
+                    <li>상호작용은 물체와 함께 동작하기 때문에 물체의 근처에 있을때만 가능합니다.</li>
+                    <li>따라서, 물체에 근접해 있을 때만 활성화 되는 버튼을 추가합니다.</li>
+                    <li>상호작용도 결국 제스처이기 때문에, 위에서 추가한 stop 버튼을 통해 상호작용을 취소할 수 있습니다.</li>
+                </list>
+            </def>
+        </deflist>
+
+        <procedure title="실습 - 버튼 추가하기">
+            <step>
+                <img alt="party-room-screenshot-ui-16.png" src="party-room-screenshot-ui-16.png"/>
+                <p>버튼을 하나 더 복제합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-17.png" src="party-room-screenshot-ui-17.png"/>
+                <p>위치를 <path>(350, -250)</path> 로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-18.png" src="party-room-screenshot-ui-18.png"/>
+                <p>버튼 내부의 텍스트를 <path>action</path> 으로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-19.png" src="party-room-screenshot-ui-19.png"/>
+                <p>문구가 길어져서 줄바꿈 되는 부분은 <path>Text | Paragraph | Horizontal Overflow</path> 를 <path>Overflow</path> 로 변경하면, 한 줄로 출력됩니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-20.png" src="party-room-screenshot-ui-20.png"/>
+            </step>
+        </procedure>
+
+        <procedure title="실습 - 스크립트 추가">
+            <step>
+                <code-block lang="typescript">
+                    import { Button } from 'UnityEngine.UI';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class UiController extends ZepetoScriptBehaviour {
+
+                        public saveScreenShotBtn: Button;
+                        public shareScreenShotBtn: Button;
+                        public feedScreenShotBtn: Button;
+                        public playGestureBtn: Button;
+                        public stopGestureBtn: Button;
+                        public interactionBtn: Button;
+
+                        Start() {
+                            this.saveScreenShotBtn.onClick.AddListener(() => {
+                                // save
+                            });
+                            this.shareScreenShotBtn.onClick.AddListener(() => {
+                                // share
+                            });
+                            this.feedScreenShotBtn.onClick.AddListener(() => {
+                                // feed
+                            });
+                            this.playGestureBtn.onClick.AddListener(() => {
+                                // play gesture
+                            });
+                            this.stopGestureBtn.onClick.AddListener(() => {
+                                // stop gesture
+                            });
+                            this.interactionBtn.onClick.AddListener(() => {
+                                // interaction
+                            });
+                        }
+
+                    }
+                </code-block>
+                <p><path>interactionBtn</path> Button 프로퍼티를 추가합니다.</p>
+                <p>버튼 클릭 이벤트 로직을 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-21.png" src="party-room-screenshot-ui-21.png"/>
+                <p><path>UiController</path> 스크립트에 버튼을 연결해 줍니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    Start() {
+                        this.interactionBtn.interactable = false;
+
+                        this.saveScreenShotBtn.onClick.AddListener(() => {
+                            // save
+                        });
+                        this.shareScreenShotBtn.onClick.AddListener(() => {
+                            // share
+                        });
+                        this.feedScreenShotBtn.onClick.AddListener(() => {
+                            // feed
+                        });
+                        this.playGestureBtn.onClick.AddListener(() => {
+                            // play gesture
+                        });
+                        this.stopGestureBtn.onClick.AddListener(() => {
+                            // stop gesture
+                        });
+                        this.interactionBtn.onClick.AddListener(() => {
+                            // interaction
+                        });
+                    }
+                </code-block>
+                <p>상호작용 버튼은 비활성화된 상태로 시작해야 되기 때문에, <path>interactable</path> 을 false 로 변경해주는 부분을 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="party-room-screenshot-ui-22.png" src="party-room-screenshot-ui-22.png"/>
+                <p>시작 시, 상호작용 버튼은 비활성화 상태로 시작합니다.</p>
+            </step>
+        </procedure>
+    </chapter>
 </topic>
