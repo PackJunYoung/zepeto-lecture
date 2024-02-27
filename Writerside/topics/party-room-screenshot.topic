@@ -236,7 +236,7 @@
                 <code-block lang="typescript">
                     import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 
-                        export default class ScreenShotController extends ZepetoScriptBehaviour {
+                    export default class ScreenShotController extends ZepetoScriptBehaviour {
 
                         public static instance: ScreenShotController;
 
@@ -367,11 +367,503 @@
         </procedure>
 
 <!--        카메라 알아보기-->
+        <procedure title="카메라 알아보기">
+            <step>
+                <img alt="screenshot-5.png" src="screenshot-5.png"/>
+                <p>씬에는 이미 <path>Main Camera</path> 가 한개 있지만, 실제로 이 카메라는 사용되지 않습니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-6.png" src="screenshot-6.png"/>
+                <list>
+                    <li>하이어라키 윈도우에 <path>t:camera</path> 로 검색하면, 카메라 컴포넌트를 가지고 있는 오브젝트들만 필터링됩니다.</li>
+                    <li>처음부터 씬에 있던 <path>Main Camera</path> 와 실행 시 생성되는 캐릭터를 따라다니는 <path>ZepetoCamera</path> 가 있습니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-7.png" src="screenshot-7.png"/>
+                <p><path>ZepetoCamera</path> 를 비활성화 상태로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-8.png" src="screenshot-8.png"/>
+                <list>
+                    <li>이제 씬에 있었던 <path>Main Camera</path> 의 결과가 랜더링되며 출력되는 것을 확인할 수 있습니다.</li>
+                    <li>두 개인 카메라 중 <path>ZepetoCamera</path> 가 출력됬던 것은 이 카메라가 더 높은 우선순위로 설정되어 있기 때문입니다.</li>
+                </list>
+            </step>
+        </procedure>
 
 <!--        렌더텍스처 알아보기-->
+        <procedure title="렌더텍스처 알아보기">
+            <step>
+                <list>
+                    <li>제페토의 스크린샷은 렌더텍스처를 사용하여 구현됩니다.</li>
+                    <li>그 전에 렌더텍스처가 무엇인지 알아보도록 하겠습니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-9.png" src="screenshot-9.png"/>
+                <p>프로젝트 윈도우에서 <path>Material</path> 폴더를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-10.png" src="screenshot-10.png"/>
+                <p><path>+ | Render Texture</path> 메뉴를 선택하여 렌더텍스처를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-11.png" src="screenshot-11.png"/>
+                <p><path>ScreenShotRenderTexture</path> 이름으로 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-12.png" src="screenshot-12.png"/>
+                <list>
+                    <li>Size: <path>(1920, 1080)</path>, Dynamic Scaling 을 체크로 변경합니다.</li>
+                    <li>좀 더 좋은 성능의 렌더텍스처로 변경한 것입니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-13.png" src="screenshot-13.png"/>
+                <p>하이어라키 윈도우에서 <path>Main Camera</path> 를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-14.png" src="screenshot-14.png"/>
+                <p>Camera 컴포넌트에 보면 <path>Target Texture</path> 라는 항목이 있습니다. 해당 항목에 추가한 렌더텍스처를 연결합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-15.png" src="screenshot-15.png"/>
+                <p>위에서 했던 것 처럼 실행 후, <path>ZepetoCamera</path> 를 비활성화로 변경합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-16.png" src="screenshot-16.png"/>
+                <list>
+                    <li>이전 처럼 <path>Main Camera</path> 의 모습이 렌더링되지 않습니다.</li>
+                    <li>해당 문구는 렌더링 되는 카메라가 전혀 없어서 출력될게 없다는 메시지입니다.</li>
+                    <li>분명 MainCamera 가 있는데 이 카메라가 렌더링 중인 결과는 어디에 있는 것일까요?</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-17.png" src="screenshot-17.png"/>
+                <p>추가했던 <path>ScreenShotRenderTexture</path> 를 선택합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-18.png" src="screenshot-18.png"/>
+                <p><path>Main Camera</path> 가 렌더링하는 결과물이 이 렌더텍스처에 기록되고 있는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-19.png" src="screenshot-19.png"/>
+                <p>실행을 중지하고, Canvas 에 <path>Raw Image</path> 를 추가합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-20.png" src="screenshot-20.png"/>
+                <p>씬 윈도우에서 크기와 위치를 조정합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-21.png" src="screenshot-21.png"/>
+                <p><path>Texture</path> 항목에 추가했던 <path>ScreenShotRenderTexture</path> 를 연결합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-22.png" src="screenshot-22.png"/>
+                <p>실행 시, <path>Main Camera</path> 가 렌더링하는 결과가 우상단에 동시화면처럼 같이 출력되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <list>
+                    <li>결국 렌더텍스처는 카메라의 렌더링 결과를 화면에 출력하는 것이 아니라 이미지로 저장하는 것 입니다.</li>
+                    <li>따라서, 카메라의 결과를 렌더텍스처로 저장하면 해당 이미지를 스크린샷으로 사용할 수 있습니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-23.png" src="screenshot-23.png"/>
+                <list>
+                    <li>실행을 중지하고, 사용하지 않을 RawImage 는 제거합니다.</li>
+                    <li>Main Camera 도 실제로 사용하지 않기 때문에 비활성화로 변경합니다.</li>
+                    <li>카메라는 성능을 많이 잡아먹는 기능으로 사용하지 않는 것은 비활성화하거나 제거하는 것이 좋습니다.</li>
+                </list>
+            </step>
+        </procedure>
 
 <!--        코루틴 알아보기-->
+        <procedure title="코루틴 알아보기">
+            <step>
+                <code-block lang="typescript">
+                    import { Camera, RenderTexture } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class ScreenShotController extends ZepetoScriptBehaviour {
+
+                        public static instance: ScreenShotController;
+
+                        public renderTexture: RenderTexture;
+                        public camera: Camera;
+
+                        Awake() {
+                            ScreenShotController.instance = this;
+                        }
+
+                        public SaveScreenShot() {
+
+                        }
+
+                        public ShareScreenShot() {
+
+                        }
+
+                        public FeedScreenShot() {
+
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li><path>ScreenShotController</path> 에 renderTexture, camera 프로퍼티를 추가합니다.</li>
+                    <li>스크린샷을 위해 렌더텍스처에 카메라의 렌더링 결과를 저장해야되기 때문에 두 프로퍼티를 추가하였습니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-24.png" src="screenshot-24.png"/>
+                <list>
+                    <li><path>RenderTexture</path> 프로퍼티에 추가했던 렌더텍스처를 연결합니다.</li>
+                    <li>Camera 는 캐릭터처럼 실행 시 생성되는 오브젝트이기 때문에 코드를 사용해서 연결해줘야 합니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    <![CDATA[
+                    import { LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayers } from 'ZEPETO.Character.Controller';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                    import { WorldService } from 'ZEPETO.World';
+                    import CharacterPlayer from './CharacterPlayer';
+                    import ScreenShotController from '../PartyRoom/ScreenShotController';
+
+                    export default class CharacterController extends ZepetoScriptBehaviour {
+
+                        Start() {
+                            // Grab the user id specified from logging into zepeto through the editor.
+                            ZepetoPlayers.instance.CreatePlayerWithUserId(WorldService.userId, new SpawnInfo(), true);
+                            ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+                            const player: LocalPlayer = ZepetoPlayers.instance.LocalPlayer;
+                            ScreenShotController.instance.camera = player.zepetoCamera.camera;
+
+                            // 캐릭터에 내가 제어할 수 있는 스크립트 추가.
+                            var zepetoCharacter: ZepetoCharacter = player.zepetoPlayer.character;
+                                zepetoCharacter.gameObject.AddComponent<CharacterPlayer>();
+                            });
+                        }
+
+                    }
+                    ]]>
+                </code-block>
+                <list>
+                    <li>실행 시 생성되는 카메라는 <path>LocalPlayer.zepetoCamera.camera</path> 를 통해 가져올 수 있습니다.</li>
+                    <li>ScreenShotController 가 싱글톤이기 때문에 public 프로퍼티에도 쉽게 접근하여 값을 설정해줄 수 있습니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-25.png" src="screenshot-25.png"/>
+                <p>실행 시, 비어있던 Camera 프로퍼티가 추가된 카메라로 연결되는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <list>
+                    <li>렌더텍스처에 화면 이미지를 저장하기 위해서는 카메라에 <path>Target Texture</path> 로 지정해줘야 합니다.</li>
+                    <li>하지만, 이전에 보았듯이 Target Texture 을 지정하면 실제 화면에는 카메라의 렌더링 결과가 출력되지 않습니다.</li>
+                    <li>따라서, Target Texture 를 지정하고 한 프레임만 진행하여, 렌더텍스처에 렌더링 결과를 저장하고 다시 Target Texture 를 해제하여 계속 화면을 출력시키도록 해야합니다.</li>
+                    <li>지금까지 코드는 항상 순차적으로 바로바로 진행이 되었지만, 이 경우에는 한 프레임을 지연시킨 뒤 이후 코드를 진행해야되는 처리가 필요합니다.</li>
+                    <li>이런 경우에 <path>코루틴(Coroutine)</path> 을 사용할 수 있습니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Camera, RenderTexture } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class ScreenShotController extends ZepetoScriptBehaviour {
+
+                        public static instance: ScreenShotController;
+
+                        public renderTexture: RenderTexture;
+                        public camera: Camera;
+
+                        Awake() {
+                            ScreenShotController.instance = this;
+                        }
+
+                        public SaveScreenShot() {
+
+                        }
+
+                        public ShareScreenShot() {
+
+                        }
+
+                        public FeedScreenShot() {
+
+                        }
+
+                        private *RenderTargetTexture() {
+
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>RenderTargetTexture 메서드를 추가합니다.</li>
+                    <li>메서드 이름 앞에 <path>*</path> 를 붙여줍니다.</li>
+                    <li>*가 있다는 것은 해당 메서드가 코루틴 메서드라는 것을 의미합니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Camera, RenderTexture } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class ScreenShotController extends ZepetoScriptBehaviour {
+
+                        public static instance: ScreenShotController;
+
+                        public renderTexture: RenderTexture;
+                        public camera: Camera;
+
+                        Awake() {
+                            ScreenShotController.instance = this;
+                        }
+
+                        public SaveScreenShot() {
+                            this.StartCoroutine(this.RenderTargetTexture());
+                        }
+
+                        public ShareScreenShot() {
+
+                        }
+
+                        public FeedScreenShot() {
+
+                        }
+
+                        private *RenderTargetTexture() {
+
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>코루틴 메서드는 일반 메서드처럼 호출하지 않고 <path>StartCoroutine</path> 을 사용해야 합니다.</li>
+                    <li>스크린샷 버틀을 클릭하면, RenderTargetTexture 코루틴 메서드가 호출되도록 적용합니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    private *RenderTargetTexture() {
+                        console.log("start");
+                        yield new WaitForSeconds(1);
+                        console.log("after 1 second");
+                        yield new WaitForSeconds(2);
+                        console.log("after 2 second");
+                    }
+                </code-block>
+                <list>
+                    <li>코루틴 메서드에서는 yield 를 사용하여 코드의 진행을 지연시킬 수 있습니다.</li>
+                    <li><path>WaitForSeconds</path> 는 지정된 매개변수 만큼의 초를 지연시킵니다.</li>
+                    <li>지연을 확인하기 위해 중간에 로그를 추가하고 유니티를 실행해 봅니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-26.png" src="screenshot-26.png"/>
+                <p>위 코드를 동작시키는 save 버튼을 클릭합니다.</p>
+            </step>
+            <step>
+                <img alt="screenshot-27.png" src="screenshot-27.png"/>
+                <p>누르자마자 start 로그가 찍히고 이후에 1초, 2초가 흐른 후에 로그가 찍히는 것을 확인할 수 있습니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    private *RenderTargetTexture() {
+                        this.camera.targetTexture = this.renderTexture;
+                        yield new WaitForEndOfFrame();
+                        this.camera.Render();
+                        this.camera.targetTexture = null;
+                    }
+                </code-block>
+                <list>
+                    <li><path>WaitForEndOfFrame</path> 은 1 프레임을 지연시킵니다.</li>
+                    <li>따라서, 카메라에 렌더텍스처를 지정하고 1 프레임 진행시켜 렌더링을 진행하고 다시 타겟 텍스처를 해제합니다.</li>
+                    <li>해제할때에는 역시 null 을 지정해 줍니다.</li>
+                </list>
+            </step>
+            <step>
+                <img alt="screenshot-28.png" src="screenshot-28.png"/>
+                <p>실행 후, save 버튼을 클릭하면 <path>ScreenShotRenderTexture</path> 에 해당 스크린샷 이미지가 기록된 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
+
+<!--        렌더 텍스처 이미지를 저장하기-->
+        <procedure title="렌더텍스처 이미지 저장하기">
+            <step>
+                <list>
+                    <li>이제 렌더텍스처로 스크린샷 이미지를 저장하였으니 해당 이미지를 모바일 기기에 저장하면 됩니다.</li>
+                    <li>모바일 기기에 저장하는 부분은 스마트폰(안드로이드, 아이폰) 내부 기능을 호출하는 것으로 보통 네이티브(Native) 라고 부릅니다.</li>
+                    <li>하지만 다행히도 제페토에서 미리 제공해주는 메서드가 있어서 네이티브 코드를 사용하지 않아도 됩니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Camera, RenderTexture, WaitForEndOfFrame, WaitForSeconds } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                    export default class ScreenShotController extends ZepetoScriptBehaviour {
+
+                        public static instance: ScreenShotController;
+
+                        public renderTexture: RenderTexture;
+                        public camera: Camera;
+
+                        Awake() {
+                            ScreenShotController.instance = this;
+                        }
+
+                        public SaveScreenShot() {
+                            this.StartCoroutine(this.RenderTargetTexture());
+                        }
+
+                        public ShareScreenShot() {
+
+                        }
+
+                        public FeedScreenShot() {
+
+                        }
+
+                        private *RenderTargetTexture() {
+                            this.camera.targetTexture = this.renderTexture;
+                            yield new WaitForEndOfFrame();
+                            this.camera.Render();
+                            this.camera.targetTexture = null;
+
+                            this.SaveToCameraRoll();
+                        }
+
+                        private SaveToCameraRoll() {
+
+                        }
+
+                    }
+                </code-block>
+                <p>기기에 이미지를 저장하는 로직을 담당할 <path>SaveToCameraRoll</path> 메서드를 추가하고, 렌더텍스처 저장 이후에 호출해 줍니다.</p>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    private SaveToCameraRoll() {
+                        ZepetoWorldContent.SaveToCameraRoll(this.renderTexture, null);
+                    }
+                </code-block>
+                <list>
+                    <li><path>ZepetoWorldContent.SaveToCameraRoll</path> 메서드를 사용하여, 렌더텍스처의 이미지를 기기에 저장할 수 있습니다.</li>
+                    <li>첫번째 매개변수는 렌더텍스처로 해당 이미지를 저장합니다.</li>
+                    <li>두번째 매개변수는 콜백함수로 일단 null 을 지정합니다. (추후에 알아봅니다)</li>
+                </list>
+            </step>
+            <step>
+                <p>기기에서 확인해보면 현재 보고있는 스크린샷의 이미지가 기기에 저장되는 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
 
 <!--        공유하기와 피드올리기도 적용하기-->
+        <procedure title="공유하기와 피드올리기도 적용하기">
+            <step>
+                <list>
+                    <li>공유하기 역시 네이티브 기능이며, 피드에 올리는 기능은 제페토 내부의 기능입니다.</li>
+                    <li>두 기능 역시 제페토에서 미리 제공해주는 메서드를 사용할 수 있습니다.</li>
+                    <li>두 기능 역시 스크린샷 저장과 같이 렌더텍스처의 이미지만 있으면 사용 가능합니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    import { Camera, RenderTexture, WaitForEndOfFrame, WaitForSeconds } from 'UnityEngine';
+                    import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                    import { ZepetoWorldContent } from 'ZEPETO.World';
+
+                    enum ScreenShotType {
+                        Save,
+                        Share,
+                        Feed
+                    }
+
+                    export default class ScreenShotController extends ZepetoScriptBehaviour {
+
+                        public static instance: ScreenShotController;
+
+                        public renderTexture: RenderTexture;
+                        public camera: Camera;
+
+                        Awake() {
+                            ScreenShotController.instance = this;
+                        }
+
+                        public SaveScreenShot() {
+                            this.StartCoroutine(this.RenderTargetTexture(ScreenShotType.Save));
+                        }
+
+                        public ShareScreenShot() {
+                            this.StartCoroutine(this.RenderTargetTexture(ScreenShotType.Share));
+                        }
+
+                        public FeedScreenShot() {
+                            this.StartCoroutine(this.RenderTargetTexture(ScreenShotType.Feed));
+                        }
+
+                        private *RenderTargetTexture(type: ScreenShotType) {
+                            this.camera.targetTexture = this.renderTexture;
+                            yield new WaitForEndOfFrame();
+                            this.camera.Render();
+                            this.camera.targetTexture = null;
+
+                            if (type == ScreenShotType.Save) {
+                                this.SaveToCameraRoll();
+                            } else if (type == ScreenShotType.Share) {
+                                this.Share();
+                            } else if (type == ScreenShotType.Feed) {
+                                this.CreateFeed();
+                            }
+                        }
+
+                        private SaveToCameraRoll() {
+                            ZepetoWorldContent.SaveToCameraRoll(this.renderTexture, null);
+                        }
+
+                        private Share() {
+
+                        }
+
+                        private CreateFeed() {
+
+                        }
+
+                    }
+                </code-block>
+                <list>
+                    <li>공유하기: Share, 피드올리기: CreateFeed 메서드를 추가합니다.</li>
+                    <li>렌더텍스처를 저장한 부분은 같고 이후에 제페토가 제공하는 메서드를 호출하는 부분만 다르기 때문에 같은 메서드를 호출하도록 추가합니다.</li>
+                    <li>이후에 분기 처리가 가능하도록 enum ScreenShotType 을 추가하고, 매개변수로 전달해 줍니다.</li>
+                </list>
+            </step>
+            <step>
+                <code-block lang="typescript">
+                    private SaveToCameraRoll() {
+                        ZepetoWorldContent.SaveToCameraRoll(this.renderTexture, null);
+                    }
+
+                    private Share() {
+                        ZepetoWorldContent.Share(this.renderTexture, null);
+                    }
+
+                    private CreateFeed() {
+                        ZepetoWorldContent.CreateFeed(this.renderTexture, "[message]", null);
+                    }
+                </code-block>
+                <list>
+                    <li>제페토가 제공하는 ZepetoWorldContent.Share, CreateFeed 메서드를 사용하여 각각 기능을 적용합니다.</li>
+                    <li>피드올리기 기능의 경우 두번째 매개변수는 피드 메시지 입니다.</li>
+                </list>
+            </step>
+            <step>
+                <p>모바일 기기에서 테스트 시, 공유하기와 피드올리기가 정상적으로 동작하는 것을 확인할 수 있습니다.</p>
+            </step>
+        </procedure>
     </chapter>
 </topic>
