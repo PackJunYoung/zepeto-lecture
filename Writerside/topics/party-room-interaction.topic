@@ -5,5 +5,521 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="오브젝트와 상호작용하는 기능 추가하기" id="party-room-interaction">
 
-    <p>Start typing here...</p>
+<!--    오브젝트 상호작용에 사용할 제스처 찾아보기-->
+    <procedure title="오브젝트 상호작용에 사용할 제스처 찾아보기">
+        <step>
+            <img alt="add-interaction.png" src="add-interaction.png"/>
+            <list>
+                <li>로그로 출력되는 제스처 목록을 보면 앉기와 같은 오브젝트와 함께 진행되어야 할듯한 제스처도 많이 있는 것을 확인할 수 있습니다.</li>
+                <li>결국 오브젝트와 상호작용한다는 것은 특정한 기능이 따로 있는 것은 아니고 오브젝트를 끼고 특정한 제스처를 재생하는 것과 같습니다.</li>
+                <li>상호작용에 적합한 제스처인지 확인하기 위해서는 실제로 제스처를 재생시켜봐야 알 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    public PlayRandomGesture() {
+                        // 랜덤 제스처를 시작.
+                        var randomIndex = Math.floor(Math.random() * this.contents.length);
+                        var randomContent = this.contents[randomIndex];
+                        console.log(`random: ${randomContent.Id} : ${randomContent.Title}`);
+
+                        if (!randomContent.IsDownloadedAnimation) {
+                            randomContent.DownloadAnimation(() => {
+                                this.zepetoCharacter.SetGesture(randomContent.AnimationClip);
+                            });
+                        } else {
+                            this.zepetoCharacter.SetGesture(randomContent.AnimationClip);
+                        }
+                    }
+
+                    public PlayGestureWithId(id: string) {
+                        var filteredContents = this.contents.filter(content => content.Id == id);
+                        if (filteredContents.length > 0) {
+                            if (!filteredContents[0].IsDownloadedAnimation) {
+                                filteredContents[0].DownloadAnimation(() => {
+                                    this.zepetoCharacter.SetGesture(filteredContents[0].AnimationClip);
+                                });
+                            } else {
+                                this.zepetoCharacter.SetGesture(filteredContents[0].AnimationClip);
+                            }
+                        } else {
+                            this.PlayRandomGesture();
+                        }
+                    }
+
+                    ...
+
+                }
+            </code-block>
+            <list>
+                <li>특정 제스처를 재생시키기 위해 랜덤이 아니라 제스처의 id 를 입력받아 제스처를 재생하는 <path>PlayGestureWithId</path> 메서드를 추가합니다.</li>
+                <li><path>filter</path> 는 리스트에 사용할 수 있는 메서드입니다. 매개변수로 필터링할 조건을 입력해주고 해당 조건에 부합하는 리스트의 요소만 모아서 다시 리스트로 반환합니다.</li>
+                <li>따라서, 조건으로 제스처의 id 가 일치하는 경우의 요소만 필터링되도록 적용한 것입니다.</li>
+                <li>반환값은 리스트로 동일한 id 의 제스처를 찾지 못한 경우에는 랜덤 제스처가 재생되도록 else 로직을 추가하였습니다.</li>
+                <li>동일한 id 의 제스처를 찾은 경우에는 그 중에 첫번째 요소를 재생합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    public PlayRandomGesture() {
+                        // 랜덤 제스처를 시작.
+                        var randomIndex = Math.floor(Math.random() * this.contents.length);
+                        var randomContent = this.contents[randomIndex];
+                        console.log(`random: ${randomContent.Id} : ${randomContent.Title}`);
+
+                        this.PlayGesture(randomContent);
+                    }
+
+                    public PlayGestureWithId(id: string) {
+                        var filteredContents = this.contents.filter(content => content.Id == id);
+                        if (filteredContents.length > 0) {
+                            this.PlayGesture(filteredContents[0]);
+                        } else {
+                            this.PlayRandomGesture();
+                        }
+                    }
+
+                    private PlayGesture(content: Content) {
+                        if (!content.IsDownloadedAnimation) {
+                            content.DownloadAnimation(() => {
+                                this.zepetoCharacter.SetGesture(content.AnimationClip);
+                            });
+                        } else {
+                            this.zepetoCharacter.SetGesture(content.AnimationClip);
+                        }
+                    }
+
+                    ...
+
+                }
+            </code-block>
+            <list>
+                <li>이전 코드에서 PlayRandomGesture 와 PlayGestureWithId 에서 특정 제스처를 재생하는 부분은 동일한 로직인 것을 볼 수 있습니다.</li>
+                <li>동일한 로직은 하나로 모아야지 이후에 관리하기도 편리하고, 이슈를 줄일 수 있습니다.</li>
+                <li>Content 를 매개변수로 받는 PlayGesture 메서드를 추가하여, 공통으로 처리합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class UiController extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    Start() {
+                        this.interactionBtn.interactable = false;
+
+                        this.saveScreenShotBtn.onClick.AddListener(() => {
+                            // save
+                            ScreenShotController.instance.SaveScreenShot();
+                        });
+                        this.shareScreenShotBtn.onClick.AddListener(() => {
+                            // share
+                            ScreenShotController.instance.ShareScreenShot();
+                        });
+                        this.feedScreenShotBtn.onClick.AddListener(() => {
+                            // feed
+                            ScreenShotController.instance.FeedScreenShot();
+                        });
+                        this.playGestureBtn.onClick.AddListener(() => {
+                            // play gesture
+                            // this.characterPlayer.PlayRandomGesture();
+                            this.characterPlayer.PlayGestureWithId("ZW_POSE_012");
+                        });
+                        this.stopGestureBtn.onClick.AddListener(() => {
+                            // stop gesture
+                            this.characterPlayer.StopGesture();
+                        });
+                        this.interactionBtn.onClick.AddListener(() => {
+                            // interaction
+                        });
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>제스처 확인을 위해 play 버튼 클릭 시 로직을 PlayRandomGesture 에서 PlayGestureWithId 로 변경합니다.</li>
+                <li>로그로 찍힌 제스처의 이름을 보고 적당해보이는 id 를 입력하여 제스처를 확인합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-interaction-1.png" src="add-interaction-1.png"/>
+            <list>
+                <li>실행 후 play 버튼을 클릭하면 지정한 제스처가 재생됩니다.</li>
+                <li>이렇게 다양한 제스처를 테스트해보고 세 가지 오브젝트에 적합한 제스처는 각각 뽑습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    Furniture 스크립트 추가하기-->
+    <procedure title="Furniture 스크립트 추가하기">
+        <step>
+            <img alt="add-interaction-2.png" src="add-interaction-2.png"/>
+            <list>
+                <li>각각의 오브젝트는 상호작용할 제스처의 id 를 가지고 있어야 합니다.</li>
+                <li>각각에 오브젝트에 추가해줄 <path>Furniture</path> 스크립트를 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public gestureId: string;
+
+                    Start() {
+
+                    }
+
+                }
+            </code-block>
+            <p>각 Furniture 에서 재생할 제스처 id 를 입력할 프로퍼티를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-3.png" src="add-interaction-3.png"/>
+            <p>세 개의 오브젝트 에 모두 Furniture 스크립트를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-4.png" src="add-interaction-4.png"/>
+            <list>
+                <li>Furniture 에 해당 오브젝트에서 재생할 제스처 id 를 입력해줍니다.</li>
+                <li>쿠션: ZW_POSE_012, 의자: ZW_POSE_063, 침대: ZW_POSE_040 을 입력하였습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    오브젝트가 캐릭터 인식하기-->
+    <procedure title="오브젝트가 캐릭터 인식하기">
+        <step>
+            <list>
+                <li>현재 상호작용 버튼은 비활성화 상태이며, 캐릭터가 접근 시 활성화 상태로 변경시킬 예정입니다.</li>
+                <li>따라서, 각 Furniture 는 캐릭터가 가까이 접근했음을 인식해야 합니다.</li>
+                <li>캐릭터의 접근에는 트리거 충돌체를 사용하여 적용합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-interaction-5.png" src="add-interaction-5.png"/>
+            <p>상호작용할 세 오브젝트에 Sphere Collider 를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-6.png" src="add-interaction-6.png"/>
+            <list>
+                <li>캐릭터가 접근했을 때 상호작용을 허용할 만큼 충돌체의 크기를 조절합니다.</li>
+                <li>Radius 를 1.5로 변경하였습니다.</li>
+                <li>IsTrigger 도 체크해줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { Collider } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public gestureId: string;
+
+                    OnTriggerEnter(collider: Collider) {
+                        // interaction 버튼 활성화.
+                    }
+
+                    OnTriggerExit(collider: Collider) {
+                        // interaction 버튼 비활성화.
+                    }
+
+                }
+            </code-block>
+            <p>OnTriggerEnter 와 OnTriggerExit 메서드를 추가합니다. 상호작용 버튼을 활성화/바활성화 시킬 부분입니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-7.png" src="add-interaction-7.png"/>
+            <p>오브젝트에 접근 시 상호작용 버튼이 활성화되고, 벗어나면 다시 비활성화 되는 것을 확인할 수 있습니다.</p>
+        </step>
+    </procedure>
+
+<!--    캐릭터가 오브젝트에 접근하면 버튼 상태 변경하기-->
+    <procedure title="상호작용 버튼 상태 변경하기">
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class UiController extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    public OnEnterFurniture() {
+                        this.interactionBtn.interactable = true;
+                    }
+
+                    public OnExitFurniture() {
+                        this.interactionBtn.interactable = false;
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>UiController 클래스에 Furniture 에 접근했을 때 호출시킬 OnEnterFurniture 메서드와 벗어났을 때 호출시킬 OnExitFurniture 메서드를
+                    추가합니다.
+                </li>
+                <li>각 메서드에서는 상호작용 버튼의 상태를 변경합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    상호작용 메서드 호출하기-->
+    <procedure title="상호작용 메서드 호출하기">
+        <step>
+            <code-block lang="typescript">
+                import { Collider } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                import UiController from './UiController';
+                import CharacterPlayer from '../Common/CharacterPlayer';
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public gestureId: string;
+
+                    private characterPlayer: CharacterPlayer;
+
+                    OnTriggerEnter(collider: Collider) {
+                        // interaction 버튼 활성화.
+                        UiController.instance.OnEnterFurniture();
+                    }
+
+                    OnTriggerExit(collider: Collider) {
+                        // interaction 버튼 비활성화.
+                        UiController.instance.OnExitFurniture();
+                    }
+
+                    private PlayInteraction() {
+                        this.characterPlayer.PlayGestureWithId(this.gestureId);
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>제스처 재생은 CharacterPlayer 클래스의 기능이므로 characterPlayer 프로퍼티를 추가합니다.</li>
+                <li>상호작용을 시작할 PlayInteraction 매서드를 추가하고, 지정한 gestureId 로 제스처를 재생하는 로직을 추가합니다.</li>
+                <li>하지만 characterPlayer 프로퍼티는 아직 제페토 캐릭터에 연결되지 않고 비어있는 상태이기 때문에 해당 로직은 동작하지 않습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                OnTriggerEnter(collider: Collider) {
+                    // interaction 버튼 활성화.
+                    this.characterPlayer = collider.gameObject.GetComponent<CharacterPlayer>();
+                    UiController.instance.OnEnterFurniture();
+                }
+
+                OnTriggerExit(collider: Collider) {
+                    // interaction 버튼 비활성화.
+                    this.characterPlayer = null;
+                    UiController.instance.OnExitFurniture();
+                }
+
+                private PlayInteraction() {
+                    this.characterPlayer.PlayGestureWithId(this.gestureId);
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>상호작용할 제페토 캐릭터는 방금 트리거를 충돌하여 OnTriggerEnter 에 진입한 collider 에서 가져올 수 있습니다.</li>
+                <li>collider 에서 gameObject 에 접근할 수 있으며, 해당 제페토 캐릭터가 가지고 있는 CharacterPlayer 를 GetComponent 를 통해 가져올 수
+                    있습니다.
+                </li>
+                <li>GetComponent 로 가져온 데이터를 characterPlayer 프로퍼티에 저장하여 상호작용할 때 사용합니다.</li>
+                <li>벗어났을 때에는 null 할당하여 연결을 해제해줍니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    콜백을 통해 제스처 재생하기-->
+    <procedure title="콜백을 통해 제스처 재생하기">
+        <step>
+            <list>
+                <li>상호작용 버튼을 클릭하면, Furniture 의 PlayInteraction 메서드를 호출해주어야 합니다.</li>
+                <li>하지만, Furniture 는 현재 씬에 세 개가 존재하며 따라서 싱글톤으로 변경할 수 없습니다.</li>
+                <li>그렇다면 버튼이 있는 UiController 에서 근접한 Furniture 에 어떻게 접근하여 PlayInteraction 메서드를 호출시켜줄 수 있을까요?</li>
+                <li>다양한 방법이 있겠지만, 콜백 함수를 사용할 수도 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class UiController extends ZepetoScriptBehaviour {
+
+                    public static instance: UiController;
+
+                    public saveScreenShotBtn: Button;
+                    public shareScreenShotBtn: Button;
+                    public feedScreenShotBtn: Button;
+                    public playGestureBtn: Button;
+                    public stopGestureBtn: Button;
+                    public interactionBtn: Button;
+
+                    private characterPlayer: CharacterPlayer;
+                    private furnitureAction: () => void;
+
+                    ...
+
+                    public OnEnterFurniture() {
+                        this.interactionBtn.interactable = true;
+                    }
+
+                    public OnExitFurniture() {
+                        this.interactionBtn.interactable = false;
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>먼저, 그동안 변수 또는 프로퍼티에 지정하는 데이터 타입에는 int, string, Button 등 특정 값에 대한 데이터 타입을 지정했었습니다.</li>
+                <li>하지만, 위에 지정한 furnitureAction 프로퍼티의 경우에는 데이터 타입이 아니라 메서드를 타입으로 지정하였습니다.</li>
+                <li>() => void 는 매개변수로 아무것도 받지않고 반환값도 없는 메서드 타입이라는 의미입니다.</li>
+                <li>void 는 반환값이 없는 메서드의 반환 타입입니다.</li>
+                <li>따라서, () => void 타입인 furnitureAction 프로퍼티에는 매개변수와 반환값이 없는 함수가 할당될 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class UiController extends ZepetoScriptBehaviour {
+
+                    public static instance: UiController;
+
+                    public saveScreenShotBtn: Button;
+                    public shareScreenShotBtn: Button;
+                    public feedScreenShotBtn: Button;
+                    public playGestureBtn: Button;
+                    public stopGestureBtn: Button;
+                    public interactionBtn: Button;
+
+                    private characterPlayer: CharacterPlayer;
+                    private furnitureAction: () => void;
+
+
+                    Awake() {
+                        UiController.instance = this;
+                    }
+
+                    Start() {
+                        this.interactionBtn.interactable = false;
+
+                        this.saveScreenShotBtn.onClick.AddListener(() => {
+                            // save
+                            ScreenShotController.instance.SaveScreenShot();
+                        });
+                        this.shareScreenShotBtn.onClick.AddListener(() => {
+                            // share
+                            ScreenShotController.instance.ShareScreenShot();
+                        });
+                        this.feedScreenShotBtn.onClick.AddListener(() => {
+                            // feed
+                            ScreenShotController.instance.FeedScreenShot();
+                        });
+                        this.playGestureBtn.onClick.AddListener(() => {
+                            // play gesture
+                            // this.characterPlayer.PlayRandomGesture();
+                            this.characterPlayer.PlayGestureWithId("ZW_POSE_012");
+                        });
+                        this.stopGestureBtn.onClick.AddListener(() => {
+                            // stop gesture
+                            this.characterPlayer.StopGesture();
+                        });
+                        this.interactionBtn.onClick.AddListener(() => {
+                            // interaction
+                            this.furnitureAction();
+                        });
+                    }
+
+                    public OnEnterFurniture(furnitureAction: () => void) {
+                        this.interactionBtn.interactable = true;
+                        this.furnitureAction = furnitureAction;
+                    }
+
+                    public OnExitFurniture() {
+                        this.interactionBtn.interactable = false;
+                        this.furnitureAction = null;
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>캐릭터가 Furniture 에 접근하였을때, Furniture 가 UiController 에 호출시킬 OnEnterFurniture 메서드에 () => void 타입의 매개변수를
+                    추가합니다.
+                </li>
+                <li>Furniture 가 상호작용을 시작할 메서드를 매개변수로 전달시켜줄 예정입니다.</li>
+                <li>벗어났을 때에는 null 을 할당하여 해제하는 로직을 추가해줍니다.</li>
+                <li>상호작용 버튼을 클릭했을 때에는 일반 함수(메서드)를 호출하듯 this.furnitureAction() 을 사용하여 Furniture 에서 전달받은 함수를 호출합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { Collider } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                import UiController from './UiController';
+                import CharacterPlayer from '../Common/CharacterPlayer';
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public gestureId: string;
+
+                    private characterPlayer: CharacterPlayer;
+
+                    OnTriggerEnter(collider: Collider) {
+                        // interaction 버튼 활성화.
+                        this.characterPlayer = collider.gameObject.GetComponent<CharacterPlayer>();
+                        UiController.instance.OnEnterFurniture(() => {
+                            this.PlayInteraction();
+                        });
+                    }
+
+                    OnTriggerExit(collider: Collider) {
+                        // interaction 버튼 비활성화.
+                        this.characterPlayer = null;
+                        UiController.instance.OnExitFurniture();
+                    }
+
+                    private PlayInteraction() {
+                        this.characterPlayer.PlayGestureWithId(this.gestureId);
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>Furniture 에서 OnEnterFurniture 를 호출하는 부분을 살펴보겠습니다.</li>
+                <li>결국 이 메서드의 매개변수인 매개변수와 반환값이 없는 함수(() => void) 에는 PlayInteraction 메서드를 호출시켜 주어야 합니다.</li>
+                <li>Furniture 입장에서는 해당 부분은 UiController 에서 상호작용 버튼을 클릭했을 때 적용시킬 로직을 추가해주어야 합니다.</li>
+                <li>위와 같이 () => { } 형식의 화살표 함수를 매개변수로 전달할 수 있습니다.</li>
+                <li>이런식으로 함수를 매개변수로 받고, 해당 부분을 화살표 함수로 전달해주는 방식을 콜백 함수라고 합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-interaction-8.png" src="add-interaction-8.png"/>
+            <list>
+                <li>실행 후 오브젝트에 접근하여 활성화된 action 버튼을 클릭하면, 지정했던 제스처를 재생하는 모습을 볼 수 있습니다.</li>
+                <li>하지만 오브젝트와 어울려서 상호작용하는 느낌으로 제스처를 진행하려면 캐릭터의 위치와 방향을 지정된 형태로 바꿔줘야 합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    피벗 적용하기-->
 </topic>
