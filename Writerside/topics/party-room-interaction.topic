@@ -522,4 +522,158 @@
     </procedure>
 
 <!--    피벗 적용하기-->
+    <procedure title="피벗 적용하기">
+        <step>
+            <img alt="add-interaction-9.png" src="add-interaction-9.png"/>
+            <p>오브젝트의 상호작용 기준점이 될 빈 오브젝트 (pivot) 을 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-10.png" src="add-interaction-10.png"/>
+            <p>해당 오브젝트에 상호작용 시킬 적당한 Position 과 Rotation 으로 값을 변경합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-11.png" src="add-interaction-11.png"/>
+            <p>Toggle Handle Rotation 을 Local 로 변경하면 회전에 대한 방향을 확인하기 쉬워집니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-12.png" src="add-interaction-12.png"/>
+            <p>씬 윈도우의 방향 기즈모에서 파란색 화살표(z축)가 가리키는 방향을 캐릭터가 바라보도록 적용할 예정입니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-13.png" src="add-interaction-13.png"/>
+            <list>
+                <li>의자와 침대 오브젝트에도 pivot 을 추가합니다.</li>
+                <li>의자는 Position: (0, 0, 0), Rotation: (0, -55, 0) 으로 적용하였습니다.</li>
+                <li>침대는 Position: (0. 0.84. 0), Rotation: (0, 0, 0) 으로 적용하였습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public pivot: Transform;
+                    public gestureId: string;
+
+                    private characterPlayer: CharacterPlayer;
+
+                    ...
+
+                }
+            </code-block>
+            <p>Furniture 에 pivot 을 연결할 Transform 프로퍼티를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-14.png" src="add-interaction-14.png"/>
+            <p>세 오브젝트 모두 인스펙터 윈도우에서 pivot 을 연결해줍니다.</p>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    public SetContents(contents: Content[]) {
+                        this.contents = contents;
+                    }
+
+                    public InteractFurniture(pivot: Transform, gestureId: string) {
+                        this.zepetoCharacter.Teleport(pivot.position, pivot.rotation);
+                        this.PlayGestureWithId(gestureId);
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>CharacterPlayer 클래스에 InteractFurniture 메서드를 추가합니다.</li>
+                <li>상호작용 시킬 피벗과 제스처 아이디를 매개변수로 받습니다.</li>
+                <li>Teleport 메서드를 사용하여 제페토 캐릭터를 이동시킵니다. 두번째 매개변수를 통해 회전도 적용시킬 수 있습니다.</li>
+                <li>이후에 PlayGestureWithId 메서드를 호출하여 제스처를 재생합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    private PlayInteraction() {
+                        // this.characterPlayer.PlayGestureWithId(this.gestureId);
+                        this.characterPlayer.InteractFurniture(this.pivot, this.gestureId);
+                    }
+
+                }
+            </code-block>
+            <p>Furniture 클래스에서 상호작용을 진행할 때 이제 InteractFurniture 메서드를 호출하도록 바꿔줍니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-15.png" src="add-interaction-15.png"/>
+            <list>
+                <li>실행 후 상호작용을 진행하면, 정상적으로 동작하지 않는 것을 확인할 수 있습니다.</li>
+                <li>이유는 텔레포트 이후에 바로 제스처를 재생시키는데 텔레포트가 완료되기까지 약간의 딜레이가 있는것을 볼 수 있습니다.</li>
+                <li>따라서 텔레포트가 완료된 이후에 제스처를 재생해야하며, 그 사이에 약간의 딜레이를 줘야합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    public SetContents(contents: Content[]) {
+                        this.contents = contents;
+                    }
+
+                    public InteractFurniture(pivot: Transform, gestureId: string) {
+                        this.StartCoroutine(this.Interaction(pivot, gestureId));
+                    }
+
+                    private *Interaction(pivot: Transform, gestureId: string) {
+                        this.zepetoCharacter.Teleport(pivot.position, pivot.rotation);
+                        yield new WaitForSeconds(0.3);
+                        this.PlayGestureWithId(gestureId);
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>*Interaction 의 코루틴 메서드를 추가하고 텔레포트와 제스처 재생 사이에 0.3초 딜레이를 추가합니다.</li>
+                <li>InteractionFurniture 메서드에서는 코루틴 메서드를 호출시키도록 변경합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-interaction-16.png" src="add-interaction-16.png"/>
+            <p>이제 정상적으로 상호작용을 진행하는 것을 확인할 수 있습니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-17.png" src="add-interaction-17.png"/>
+            <p>하지만 의자의 경우 의자 위에서 앉는 모습을 하게되어 부자연스럽게 모션이 진행됩니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-18.png" src="add-interaction-18.png"/>
+            <p>의자의 MeshCollider 를 비활성화로 변경합니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-19.png" src="add-interaction-19.png"/>
+            <p>이젠 너무 낮게 모션이 진행되며 겹치는 모습을 볼 수 있습니다.</p>
+        </step>
+        <step>
+            <img alt="add-interaction-20.png" src="add-interaction-20.png"/>
+            <list>
+                <li>하단에 약간만 캐릭터를 올려주도록 BoxCollider 를 추가합니다.</li>
+                <li>Center: (0, 0.07, 0), Size: (0.3, 0.13, 0.3) 으로 적용하였습니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-interaction-21.png" src="add-interaction-21.png"/>
+            <p>자연스럽게 의자에 앉는 모습을 확인할 수 있습니다.</p>
+        </step>
+    </procedure>
 </topic>

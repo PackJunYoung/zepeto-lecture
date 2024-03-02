@@ -5,5 +5,329 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="사운드와 진동 추가하기" id="party-room-sound">
 
-    <p>Start typing here...</p>
+<!--    Furniture 에 사운드 설정하기-->
+    <procedure title="Furniture 에 사운드 설정하기">
+        <step>
+            <img alt="add-sound-1.png" src="add-sound-1.png"/>
+            <p><path>StoreAssets | Casual Fx Shot</path> 경로에 에셋스토어에서 가져온 무료 효과음 리소스가 들어있습니다.</p>
+        </step>
+        <step>
+            <img alt="add-sount-2.png" src="add-sount-2.png"/>
+            <p>사운드 리소스를 선택하고 재생버튼을 클릭하면, 해당 사운드를 들어볼 수 있습니다.</p>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public pivot: Transform;
+                    public gestureId: string;
+                    public sound: AudioClip;
+
+                    private characterPlayer: CharacterPlayer;
+
+                    ...
+
+                }
+            </code-block>
+            <p>사운드 리소스는 <path>AudioClip</path> 입니다. Furniture 클래스에 AudioClip 프로퍼티를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-sound-3.png" src="add-sound-3.png"/>
+            <list>
+                <li>각 Furniture 오브젝트의 인스펙터에 적당한 사운드를 하나씩 연결해줍니다.</li>
+                <li>쿠션: Electronic arp 1, 의자: Flexatone 1, 침대: harp jingle 을 연결하였습니다.</li>
+                <li>각 사운드는 상호작용을 진행할 때 재생시킬 예정입니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    AudioController 추가하기-->
+    <procedure title="AudioController 추가하기">
+        <step>
+            <img alt="add-sound-4.png" src="add-sound-4.png"/>
+            <p><path>Script | PartyRoom</path> 경로에 사운드 재생을 담당할 <path>AudioController</path> 스크립트를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-sound-5.png" src="add-sound-5.png"/>
+            <p><path>AudioController</path> 이름의 빈 오브젝트를 추가하고, AudioController 스크립트를 컴포넌트로 추가합니다.</p>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class AudioController extends ZepetoScriptBehaviour {
+
+                public static instance: AudioController;
+
+                    Awake() {
+                        AudioController.instance = this;
+                    }
+
+                }
+            </code-block>
+            <p>AudioController 는 한개만 있는 오브젝트이므로 다른 클래스에서 쉽게 접근할 수 있도록 싱글톤으로 만들어 줍니다.</p>
+        </step>
+    </procedure>
+
+<!--    AudioSource 추가하기-->
+    <procedure title="AudioSource 추가히기">
+        <step>
+            <list>
+                <li>유니티에서 사운드 재생을 담당하는 컴포넌트는 <path>AudioSource</path> 입니다.</li>
+                <li>하나의 AudioSource 는 동시에 하나의 사운드 리소스를 재생시킬 수 있습니다.</li>
+                <li>게임에서 동시에 재생될 수 있는 사운드는 배경음 한개와 효과음이 재생될 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-sound-6.png" src="add-sound-6.png"/>
+            <p>AudioController 하위에 sound, bgm 이름의 빈 오브젝트를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-sound-7.png" src="add-sound-7.png"/>
+            <p>sound, bgm 두 오브젝트에 AudioSource 컴포넌트를 추가합니다.</p>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { AudioSource } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class AudioController extends ZepetoScriptBehaviour {
+
+                    public static instance: AudioController;
+
+                    public soundSource: AudioSource;
+                    public bgmSource: AudioSource;
+
+                    Awake() {
+                        AudioController.instance = this;
+                    }
+
+                }
+            </code-block>
+            <p>AudioController 클래스에 AudioSource 프로퍼티 soundSource 와 bgmSource 를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-sound-8.png" src="add-sound-8.png"/>
+            <p>AudioController 오브젝트의 인스펙터에서 추가한 프로퍼티를 연결해줍니다.</p>
+        </step>
+        <step>
+            <list>
+                <li>위와 같은 형태로 구성되면 동시에 재생될 수 있는 사운드가 배경음 1개와 효과음 1개입니다.</li>
+                <li>효과음의 경우 동시에 여러개가 재생될 수도 있는데 그런 형태로 구성되려면 좀 더 복잡한 구조가 되어야 합니다.</li>
+                <li>이 프로젝트는 간단한 형태의 사운드 구현만 진행할 예정이므로 동시에 효과음이 1개만 재생된다는 가정으로 위와 같이 구성합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+<!--    Sound 적용하기-->
+    <procedure title="Sound 적용하기">
+        <step>
+            <code-block lang="typescript">
+                import { AudioClip, AudioSource } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class AudioController extends ZepetoScriptBehaviour {
+
+                    public static instance: AudioController;
+
+                    public soundSource: AudioSource;
+                    public bgmSource: AudioSource;
+
+                    Awake() {
+                        AudioController.instance = this;
+                    }
+
+                    public PlaySound(clip: AudioClip) {
+
+                    }
+
+                    public PlayBgm(clip: AudioClip) {
+
+                    }
+
+                }
+            </code-block>
+            <p>AudioClip 을 매개변수로 받는 PlaySound, PlayBgm 매서드를 추가합니다.</p>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { AudioClip, AudioSource } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class AudioController extends ZepetoScriptBehaviour {
+
+                    public static instance: AudioController;
+
+                    public soundSource: AudioSource;
+                    public bgmSource: AudioSource;
+
+                    Awake() {
+                        AudioController.instance = this;
+                    }
+
+                    public PlaySound(clip: AudioClip) {
+                        this.soundSource.clip = clip;
+                        this.soundSource.Play();
+                    }
+
+                    public PlayBgm(clip: AudioClip) {
+                        this.bgmSource.clip = clip;
+                        this.bgmSource.loop = true;
+                        this.bgmSource.Play();
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>사운드 재생은 간단하게 SourceSource 에 clip 을 지정해주고 Play 메서드를 호출해주면 됩니다.</li>
+                <li>효과음은 soundSource 를 사용하고 배경음은 bgmSource 를 사용하도록 작성합니다.</li>
+                <li>배경음은 사운드가 반복되어야 하므로 loop 를 true 로 지정해 줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public pivot: Transform;
+                    public gestureId: string;
+                    public sound: AudioClip;
+
+                    private characterPlayer: CharacterPlayer;
+
+                    ...
+
+                    private PlayInteraction() {
+                        // this.characterPlayer.PlayGestureWithId(this.gestureId);
+                        this.characterPlayer.InteractFurniture(this.pivot, this.gestureId);
+
+                        if (this.sound != null) {
+                            AudioController.instance.PlaySound(this.sound);
+                        }
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>상호작을 진행할 때, AudioController 싱글톤에 접근하여 PlaySound 매서드를 호출해주는 로직을 추가합니다.</li>
+                <li>sound 프로퍼티가 연결되지 않은 경우에 대비하여 sound 가 null 이 아님을 체크하는 로직을 추가해 줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <p>사운드를 재생해주는 부분은 작업이 완료되었으나 실행 후 상호작용을 진행하면 사운드가 제대로 재생되지 않는 것을 확인할 수 있습니다.</p>
+        </step>
+    </procedure>
+
+<!--    AudioListener 적용하기-->
+    <procedure title="AudioListener 적용하기">
+        <step>
+            <list>
+                <li>유니티는 3D 환경을 제공하며, 제페토도 3D에서 게임 진행됩니다.</li>
+                <li>사운드의 경우 소리가 발생하는 곳(AudioSource)에서 거리가 가까울수록 소리가 크게 들리고, 멀어진다면 소리가 작게 들려야 합니다.</li>
+                <li>결국 소리를 듣는 곳을 설정해주어야 하며, 그런 역할을 하는 컴포넌트가 AudioListener 입니다.</li>
+                <li>그렇다면 현재 프로젝트에서 소리를 듣는 곳은 어디로 적용해야 할까요? 제페토 캐릭터나 제페토 카메라에 적용시킬 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                ...
+
+                export default class CharacterPlayer extends ZepetoScriptBehaviour {
+
+                    private zepetoCharacter: ZepetoCharacter;
+                    private contents: Content[];
+
+                    Start() {
+                        this.zepetoCharacter = this.gameObject.GetComponent<ZepetoCharacter>();
+                        this.gameObject.layer = LayerMask.NameToLayer("Player");
+                        this.gameObject.AddComponent<AudioListener>();
+                    }
+
+                    ...
+
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>AudioListener 는 제페토 캐릭터에 추가하도록 하겠습니다.</li>
+                <li>제페토 캐릭터가 생성될 때, AddComponent 메서드를 사용하여 AudioListener 컴포넌트를 추가해 줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="add-sound-10.png" src="add-sound-10.png"/>
+            <p>실행 시, 제페토 캐릭터에 AudioListener 컴포넌트가 추가되어 있는것을 볼 수 있습니다.</p>
+        </step>
+        <step>
+            <img alt="add-sound-11.png" src="add-sound-11.png"/>
+            <p>상호작용 진행 시, 사운드가 정상적으로 재생되는 것을 확인할 수 있습니다.</p>
+        </step>
+    </procedure>
+
+<!--    진동 적용하기-->
+    <procedure title="진동 적용하기">
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    public pivot: Transform;
+                    public gestureId: string;
+                    public sound: AudioClip;
+                    public isVibrate: boolean;
+
+                    private characterPlayer: CharacterPlayer;
+
+                    ...
+
+                }
+            </code-block>
+            <p>상호작용 시 진동을 발생시킬지 여부를 결정할 isVibrate 프로퍼티를 추가합니다.</p>
+        </step>
+        <step>
+            <img alt="add-sound-12.png" src="add-sound-12.png"/>
+            <list>
+                <li>Furniture 오브젝트의 인스펙터에서 진동을 적용하고자 하는 오브젝트만 isVibrate 를 체크로 변경합니다.</li>
+                <li>저는 의자 오브젝트에만 진동을 적용시켰습니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                ...
+
+                export default class Furniture extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    private PlayInteraction() {
+                        // this.characterPlayer.PlayGestureWithId(this.gestureId);
+                        this.characterPlayer.InteractFurniture(this.pivot, this.gestureId);
+
+                        if (this.sound != null) {
+                            AudioController.instance.PlaySound(this.sound);
+                        }
+
+                        if (this.isVibrate) {
+                            Handheld.Vibrate();
+                        }
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>진동 역시 모바일 기기의 내부 기능인데 이 부분은 유니티에서 간단하게 사용할 수 있도록 제공해줍니다.</li>
+                <li>진동을 설정한 오브젝트인 경우에는 Handheld.Vibrate 메서드를 호출시켜 진동을 적용합니다.</li>
+            </list>
+        </step>
+        <step>
+            <list>
+                <li>진동은 모바일 기기의 기능이기 때문에 기기에서 테스트하여 확인할 수 있습니다.</li>
+                <li>기기에서 확인 시, 진동이 정상적으로 발생하는 것을 확인할 수 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
 </topic>
