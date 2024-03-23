@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="멀티플레이 환경 구성하기" id="multiplay-environment">
+
+    <procedure title="서버 설치하기">
+        <step>
+            <img alt="env-multiplay-1.png" src="env-multiplay-1.png"/>
+            <list>
+                <li>프로젝트 뷰에서 <path>+ | ZEPETO | Multiplay Server</path> 메뉴를 선택합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-2.png" src="env-multiplay-2.png"/>
+            <list>
+                <li>World 라는 초기 이름의 리소스가 생성이 되는데, 엔터를 눌러 줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-3.png" src="env-multiplay-3.png"/>
+            <list>
+                <li>World.multiplay 폴더가 생성된 것을 볼 수 있습니다.</li>
+                <li>폴더 내부에는 다양한 파일들이 포함되어 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="서버 설정하기">
+        <step>
+            <img alt="env-multiplay-4.png" src="env-multiplay-4.png"/>
+            <list>
+                <li>Open World Settings 메뉴를 선택합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-5.png" src="env-multiplay-5.png"/>
+            <list>
+                <li><path>MaxClients</path> 항목에서 방에 접속할 최대 인원수를 설정할 수 있습니다.</li>
+                <li>하단에는 방 리스트를 확인할 수 있는 항목과 방 초대가 가능할지 여부 등을 설정할 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-6.png" src="env-multiplay-6.png"/>
+            <list>
+                <li>결국 모든 유저가 하나의 월드에 접속되는 것은 아니고, 일정 그룹의 유저들이 하나의 월드에 접속하는 구조입니다.</li>
+                <li>각 유저 그룹이 접속하는 월드를 Room(룸) 이라고 부릅니다.</li>
+                <li>유저가 많다면 동시에 여러개의 룸이 존재합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="테스트 서버 실행하기">
+        <step>
+            <list>
+                <li>서버는 다른 유저의 데이터도 받기위해 공개된 곳에 존재하는 추가의 컴퓨터가 필요하다고 했었습니다.</li>
+                <li>하지만, 내 접속 상태만 보면서 테스트를 해보는데에는 내 컴퓨터가 클라이언트 역할을 하면서 서버 역할도 하면 됩니다.</li>
+                <li>개발을 진행하는 과정에서는 내 컴퓨터를 임시로 서버로 사용하며 테스트합니다.</li>
+                <li>내 컴퓨터를 서버의 역할로 실행하는 것을 <path>로컬 서버</path> 라고 합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-7.png" src="env-multiplay-7.png"/>
+            <list>
+                <li><path>Window | ZEPETO | Multiplay Server</path> 메뉴를 선택합니다.</li>
+                <li>새로운 윈도우가 생성됩니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-8.png" src="env-multiplay-8.png"/>
+            <list>
+                <li>헤당 윈도우를 한 쪽의 탭으로 옮깁니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-9.png" src="env-multiplay-9.png"/>
+            <list>
+                <li>위 버튼을 클릭합니다.</li>
+                <li>이 버튼이 로컬 서버를 실행하는 버튼입니다.</li>
+                <li>유니티 에디터에서 멀티플레이 테스트를 위해서는 항상 이 버튼을 먼저 실행해주어야 합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-10.png" src="env-multiplay-10.png"/>
+            <list>
+                <li>버튼에 초록색 불이 들어옵니다.</li>
+                <li>추가했던 윈도우에 여러가지 로그가 출력된 것을 볼 수 있습니다.</li>
+                <li>로컬 서버가 정상적으로 실행된 것입니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="서버 접속하기">
+        <step>
+            <img alt="env-multiplay-11.png" src="env-multiplay-11.png"/>
+            <list>
+                <li><path>Multiplay</path> 이름의 빈 오브젝트를 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-12.png" src="env-multiplay-12.png"/>
+            <list>
+                <li>위 오브젝트에 <path>ZepetoWorldMultiplay</path> 스크립트 컴포넌트를 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-13.png" src="env-multiplay-13.png"/>
+            <list>
+                <li>게임을 실행합니다.</li>
+                <li>동일하게 평지에 제페토 캐릭터가 생성된 모습입니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="env-multiplay-14.png" src="env-multiplay-14.png"/>
+            <list>
+                <li>멀티플레이 윈도우에 로그가 출력된 것을 볼 수 있습니다.</li>
+                <li>유저의 접속을 서버가 인식하고 로그를 출력한 것입니다.</li>
+            </list>
+        </step>
+    </procedure>
+</topic>

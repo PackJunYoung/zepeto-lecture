@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Message 알아보기" id="study-message">
+
+    <procedure title="기본 설정 구성">
+        <step>
+            <img alt="study-message-1.png" src="study-message-1.png"/>
+            <list>
+                <li><path>Script | ThemePark</path> 경로에 <path>MultiplayManager</path> 스크립트를 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="study-message-2.png" src="study-message-2.png"/>
+            <list>
+                <li>Multiplay 오브젝트에 MultiplayManager 스크립트 컴포넌트도 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export default class MultiplayManager extends ZepetoScriptBehaviour {
+
+                    public static instance: MultiplayManager;
+
+                    Awake() {
+                        MultiplayManager.instance = this;
+                    }
+
+                    Start() {
+
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>MultiplayManager 클래스를 싱글톤으로 수정합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { Room } from 'ZEPETO.Multiplay';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                import { ZepetoWorldMultiplay } from 'ZEPETO.World';
+
+                export default class MultiplayManager extends ZepetoScriptBehaviour {
+
+                    public static instance: MultiplayManager;
+
+                    private multiplay: ZepetoWorldMultiplay;
+                    private room: Room;
+
+                    Awake() {
+                        MultiplayManager.instance = this;
+                    }
+
+                    Start() {
+                        this.multiplay = this.gameObject.GetComponent<ZepetoWorldMultiplay>();
+                        this.multiplay.RoomCreated += (room: Room) => {
+                            this.room = room;
+                        }
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>multiplay, room 프로퍼티를 추가합니다.</li>
+                <li>multiplay 는 게임 오브젝트에 컴포넌트로 추가되어 있는 스크립트로 GetComponent 를 통해 가져올 수 있습니다.</li>
+                <li>(room: Room) => {} 은 애로우 함수로 Room 을 매개변수로 받는 함수(매서드)와 동일합니다.</li>
+                <li>RoomCreated += 이 부분은 ZepetoWorldMultiplay 클래스가 제공해주는 이벤트로 룸이 생성되었을 때 호출되는 이벤트 입니다.</li>
+                <li>따라서 룸이 생성되면, { } 내부의 로직이 실행됩니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="study-message-3.png" src="study-message-3.png"/>
+            <list>
+                <li>지금까지 추가된 코드는 클라이언트 쪽의 코드입니다.</li>
+                <li>서버 쪽 코드는 별도로 작성해주어야 합니다.</li>
+                <li>서버 쪽 코드는 <path>World.multiplay | index</path> 스크립트 파일에 작성합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                import { Sandbox, SandboxOptions, SandboxPlayer } from "ZEPETO.Multiplay";
+
+                export default class extends Sandbox {
+
+                    onCreate(options: SandboxOptions) {
+
+                    }
+
+                    onJoin(client: SandboxPlayer) {
+
+                    }
+
+                    onLeave(client: SandboxPlayer, consented?: boolean) {
+
+                    }
+                }
+            </code-block>
+            <list>
+                <li>onCreate 는 룸이 생성되면 호출되는 매서드로 초기화 로직이 추가될 수 있습니다.</li>
+                <li>onJoin 은 룸에 유저가 접속하면 호출되는 매서드입니다.</li>
+                <li>onLeave 는 룸에 유저가 나가면 호출되는 매서드입니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="메세지 전송">
+        <step>
+            <img alt="study-message-4.png" src="study-message-4.png"/>
+            <list>
+                <li>클라이언트에서 서버로 메시지를 보낼때는 room.send 매서드를 사용합니다.</li>
+                <li>클라이언트가 서버에서 메시지를 받을때는 room.AddMessageHandler 를 사용합니다.</li>
+                <li>서버에서 클라이언트로 메시지를 보낼때는 client.send 매서드를 사용합니다.</li>
+                <li>서버가 클라이언트에서 메시지를 받을때는 onMessage 를 사용합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="study-message-5.png" src="study-message-5.png"/>
+            <list>
+                <li>메시지에는 타입을 지정하여 어떤 역할의 메시지인지 설정할 수 있습니다.</li>
+                <li>메시지로 전달할 수 있는 데이터 타입에는 제한이 없습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="서버 메시지 송수신">
+        <step>
+            <code-block lang="typescript">
+                import { Sandbox, SandboxOptions, SandboxPlayer } from "ZEPETO.Multiplay";
+
+                export default class extends Sandbox {
+
+                    onCreate(options: SandboxOptions) {
+                        this.onMessage("echo", (client: SandboxPlayer, message: string) => {
+                            console.log("message received");
+                            client.send("echo", `echo message: ${message}`);
+                        });
+                    }
+
+                    onJoin(client: SandboxPlayer) {
+
+                    }
+
+                    onLeave(client: SandboxPlayer, consented?: boolean) {
+
+                    }
+                }
+            </code-block>
+        </step>
+        <list>
+            <li>onCreate 매서드에 메시지를 받는 로직을 추가합니다.</li>
+            <li>this.onMessage 매서드를 사용하며, 첫번째 매개변수는 메시지의 타입입니다.</li>
+            <li>두번째 매개변수는 애로우 함수로 이 부분의 매개변수는 첫번째는 메시지를 보낸 클라이언트에 대한 정보이고, 두번째는 메시지입니다. 두번째 메시지의 타입은 모든지 가능합니다.</li>
+            <li>{ } 내부에는 메시지를 받은 후의 로직을 추가합니다.</li>
+            <li>메시지를 잘 받았는지 확인하기 위한 로그를 추가합니다.</li>
+            <li>client.send 메서드를 호출하여 받은 메시지를 약간 변경한 뒤 클라이언트로 메시지를 재전송합니다.</li>
+        </list>
+    </procedure>
+
+    <procedure title="클라이언트 메시지 송수신">
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { Input, KeyCode } from 'UnityEngine';
+                import { Room } from 'ZEPETO.Multiplay';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+                import { ZepetoWorldMultiplay } from 'ZEPETO.World';
+
+                export default class MultiplayManager extends ZepetoScriptBehaviour {
+
+                    public static instance: MultiplayManager;
+
+                    private multiplay: ZepetoWorldMultiplay;
+                    private room: Room;
+
+                    Awake() {
+                        MultiplayManager.instance = this;
+                    }
+
+                    Start() {
+                        this.multiplay = this.gameObject.GetComponent<ZepetoWorldMultiplay>();
+                        this.multiplay.RoomCreated += (room: Room) => {
+                            this.room = room;
+                        };
+                        this.multiplay.RoomJoined += (room: Room) => {
+                            room.AddMessageHandler("echo", (message: string) => {
+                                console.log(message);
+                            });
+                            this.room.Send("echo", "hello world!");
+                        };
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>RoomJoined 이벤트에 메시지를 처리할 로직을 추가합니다.</li>
+                <li>AddMessageHandler 매서드를 사용하여, 메시지를 수신합니다.</li>
+                <li>서버로 부터 받은 메시지를 로그로 출력합니다.</li>
+                <li>시작 후, 서버와 연결이 완료되면 서버로 메시지를 전송합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="study-message-6.png" src="study-message-6.png"/>
+            <list>
+                <li>실행 시, 서버로부터 다시 받은 메시지의 로그가 출력된 것을 볼 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="study-message-7.png" src="study-message-7.png"/>
+            <list>
+                <li>서버쪽 윈도우에도 메시지를 받았던 로그가 출력된 것을 볼 수 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+</topic>

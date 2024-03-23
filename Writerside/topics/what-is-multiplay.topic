@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="멀티플레이란?" id="what-is-multiplay">
+
+    <procedure title="싱글플레이">
+        <step>
+            <img alt="what-is-multiplay-2.png" src="what-is-multiplay-2.png"/>
+            <list>
+                <li>싱글플레이에서는 조작으로 움직이는 캐릭터는 내 캐릭터 한 개 뿐입니다.</li>
+                <li>싱글플레이는 게임을 플레이하는 해당 기기에서 모든 처리를 담당합니다.</li>
+                <li>게임을 진행하는데 필요한 데이터와 상태 정보를 모두 내 기기에 저장되어 있습니다.</li>
+            </list>
+            
+        </step>
+    </procedure>
+
+    <procedure title="싱글플레이와 멀티플레이">
+        <step>
+            <img alt="what-is-multiplay-1.png" src="what-is-multiplay-1.png"/>
+            <list>
+                <li>멀티플레이는 여러 사람이 각자의 조작으로 각각 움직이는 캐릭터를 다룹니다.</li>
+                <li>다른 유저의 캐릭터를 움직임과 모션을 맞추는 과정을 <path>동기화</path> 라고 합니다.</li>
+                <li>각각의 유저가 각각의 기기를 통해 게임을 플레이하기 때문에 내 기기의 데이터만으로 게임을 구성할 수 없습니다.</li>
+                <li>멀티플레이에서는 다른 유저들의 데이터와 상태 정보를 어디선가 가져와야 합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="서버-클라이언트 구조">
+        <step>
+            <img alt="what-is-multiplay-3.png" src="what-is-multiplay-3.png"/>
+            <list>
+                <li>멀티플레이를 구성하는 기본적인 구조를 서버-클라이언트 구조라고 합니다.</li>
+                <li>각 유저는 클라이언트로 자신의 캐릭터를 조작하고, 조작한 정보를 서버로 전송합니다.</li>
+                <li>서버는 모든 유저의 데이터와 상태 정보를 저장하고 있고, 모든 유저에게 동기화 처리를 위해 데이터를 내려줍니다.</li>
+                <li>각 유저는 서버로부터 받은 다른 유저들의 데이터를 통해 화면에 다른 유저들의 정보를 구성합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="서버란?">
+        <step>
+            <img alt="what-is-multiplay-4.png" src="what-is-multiplay-4.png"/>
+            <list>
+                <li>서버는 멀티플레이를 구성하기 위해 중간에서 모든 유저의 데이터를 저장하고 처리하는 기기입니다.</li>
+                <li>따라서 이 기능을 담당할 컴퓨터가 추가적으로 필요합니다.</li>
+                <li>이런 역할을 할 수 있는 컴퓨터는 모든 유저가 접근할 수 있는 곳에 있어야 하며, 보통 <path>데이터 센터</path> 에 모여 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="제페토에서는?">
+        <list>
+            <li>제페토에서는 내가 별도의 서버를 구성해야할 필요없이 월드를 배포하면 서버를 제공해줍니다.</li>
+            <li>따라서 싱글플레이를 개발하듯 큰 무리없이 멀티플레이도 개발할 수 있습니다.</li>
+            <li>하지만 서버를 제공하는 것은 비용적으로 큰 부담이기 때문에 무한정 제공하진 않고, 전송할 수 있는 데이터데 한계가 있습니다.</li>
+        </list>
+    </procedure>
+</topic>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="ThemePark" id="ThemePark">
+
+    <chapter title="최종 결과물">
+        <img alt="theme-park-1.png" src="theme-park-1.png"/>
+        <list>
+            <li>멀티플레이가 적용되어 여러명이 월드에 함께 접속합니다.</li>
+            <li>시간이 지날수록 맵에 선물이 리젠됩니다.</li>
+            <li>리젠된 상자에 접근 시, 상자가 획득됩니다.</li>
+            <li>유저별로 획득한 상자의 개수는 서버상에 누적됩니다.</li>
+        </list>
+    </chapter>
+
+    <chapter title="브랜치 설명">
+        <img alt="theme-park-2.png" src="theme-park-2.png"/>
+        <list>
+            <li><path>ThemePark_complete</path> 브랜치는 최종 완성 브랜치 입니다.</li>
+            <li><path>ThemePark_start</path> 브랜치는 초기 세팅만 완료된 브랜치 입니다.</li>
+        </list>
+    </chapter>
+
+    <chapter title="적용된 에셋">
+        <img alt="theme-park-3.png" src="theme-park-3.png"/>
+        <p>멀티 플레이 적용을 위해 <path>ZEPETO.Multiplay</path> 에셋을 사용합니다.</p>
+        <img alt="theme-park-4.png" src="theme-park-4.png"/>
+        <p>획득할 상자 리소스를 위해 <path>Theme Park</path> 에셋을 사용합니다.</p>
+    </chapter>
+
+    <chapter title="초기 세팅">
+        <img alt="theme-park-5.png" src="theme-park-5.png"/>
+        <p>기본 바닥 오브젝트만 존재하는 상태입니다.</p>
+    </chapter>
+</topic>

@@ -45,4 +45,12 @@
         <toc-element topic="party-room-interaction.topic"/>
         <toc-element topic="party-room-sound.topic"/>
     </toc-element>
+    <toc-element topic="ThemePark.topic">
+        <toc-element topic="what-is-multiplay.topic"/>
+        <toc-element topic="multiplay-environment.topic"/>
+        <toc-element topic="study-message.topic"/>
+        <toc-element topic="study-state.topic"/>
+        <toc-element topic="sync-character.topic"/>
+        <toc-element topic="add-multi-box.topic"/>
+    </toc-element>
 </instance-profile>
