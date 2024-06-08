@@ -5,5 +5,29 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="State 알아보기" id="study-state">
 
-    <p>Start typing here...</p>
+    <procedure title="state란?">
+        <step>
+            <img alt="4-4-1.png" src="4-4-1.png"/>
+            <list>
+                <li>Multiplay Room은 접속 중인 플레이어 정보, 플레이어 또는 오브젝트의 위치 등을 관리하기 위한 State property를 제공합니다.</li>
+            </list>
+        </step>
+        <step>
+            <list>
+                <li>Message는 월드 내부에 특정 이벤트를 전달하는 목적이라면, State는 월드 내부의 특정 상태를 관리하는 목적입니다.</li>
+                <li>단발성 이벤트가 아니라 상태를 가지는 값에 대한 부분은 State를 활용하는 것이 좋습니다.</li>
+                <li>예를 들어, 각 제페토 캐릭터의 위치, 회전 등의 값도 State로 관리되어 동기화시킬 수 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="스키마 파일 정의하기">
+        <step>
+            <list>
+                <li></li>
+                <li></li>
+                <li></li>
+            </list>
+        </step>
+    </procedure>
 </topic>

@@ -25,6 +25,7 @@
         <toc-element topic="list-and-map.topic"/>
     </toc-element>
     <toc-element topic="git-clone.topic">
+        <toc-element topic="minimap.topic"/>
         <toc-element topic="git-coding-start.topic"/>
     </toc-element>
     <toc-element topic="mystery-house.topic">
@@ -51,6 +52,5 @@
         <toc-element topic="study-message.topic"/>
         <toc-element topic="study-state.topic"/>
         <toc-element topic="sync-character.topic"/>
-        <toc-element topic="add-multi-box.topic"/>
     </toc-element>
 </instance-profile>

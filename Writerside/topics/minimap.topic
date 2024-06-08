@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="minimap" id="minimap">
+
+    <code-block lang="typescript">
+        import { Graphics, Material, Quaternion, RenderTexture, Transform, Vector3 } from 'UnityEngine';
+        import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+        export default class MinimapCamera extends ZepetoScriptBehaviour {
+
+            public static instance: MinimapCamera;
+
+            public grayscaleMaterial: Material;
+            public characterIcon: Transform;
+            public characterTran: Transform;
+
+            Awake() {
+                MinimapCamera.instance = this;
+            }
+
+            LateUpdate() {
+                if (this.characterTran != null) {
+                    var characterPos = this.characterTran.position;
+                    var cameraPos = this.transform.position;
+                    this.transform.position = new Vector3(characterPos.x, cameraPos.y, characterPos.z);
+                }
+            }
+
+            OnRenderImage(src: RenderTexture, dest: RenderTexture) {
+                Graphics.Blit(src, dest, this.grayscaleMaterial);
+            }
+
+        }
+    </code-block>
+
+    <code-block lang="typescript">
+        Shader "Custom/GrayscaleShader"
+        {
+            Properties
+            {
+                _MainTex ("Base (RGB)", 2D) = "white" {}
+            }
+            SubShader
+            {
+                Pass
+                {
+                    CGPROGRAM
+                    #pragma vertex vert
+                    #pragma fragment frag
+                    #include "UnityCG.cginc"
+
+                    struct appdata_t
+                    {
+                        float4 vertex : POSITION;
+                        float2 uv : TEXCOORD0;
+                    };
+
+                    struct v2f
+                    {
+                        float2 uv : TEXCOORD0;
+                        float4 vertex : SV_POSITION;
+                    };
+
+                    sampler2D _MainTex;
+
+                    v2f vert (appdata_t v)
+                    {
+                        v2f o;
+                        o.vertex = UnityObjectToClipPos(v.vertex);
+                        o.uv = v.uv;
+                        return o;
+                    }
+
+                    half4 frag (v2f i) : SV_Target
+                    {
+                        half4 col = tex2D(_MainTex, i.uv);
+                        half gray = dot(col.rgb, half3(0.299, 0.587, 0.114));
+                        return half4(gray, gray, gray, col.a);
+                    }
+                ENDCG
+                }
+            }
+            Fallback "Diffuse"
+        }
+    </code-block>
+</topic>

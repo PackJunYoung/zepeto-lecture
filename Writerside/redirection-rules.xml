@@ -10,4 +10,8 @@
         <description>Created after removal of "About main" from main</description>
         <accepts>main.html</accepts>
     </rule>
+    <rule id="645f8396">
+        <description>Created after removal of "멀티 박스 기능 추가하기" from main</description>
+        <accepts>add-multi-box.html</accepts>
+    </rule>
 </rules>
