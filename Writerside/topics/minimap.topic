@@ -26,6 +26,9 @@
                     var characterPos = this.characterTran.position;
                     var cameraPos = this.transform.position;
                     this.transform.position = new Vector3(characterPos.x, cameraPos.y, characterPos.z);
+
+                    var characterRot = this.characterTran.rotation.eulerAngles;
+                    this.characterIcon.rotation = Quaternion.Euler(0, 0, -characterRot.y + 180);
                 }
             }
 
