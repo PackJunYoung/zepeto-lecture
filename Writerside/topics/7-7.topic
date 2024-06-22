@@ -70,6 +70,7 @@
                 <li>하위에 있는 여러개의 오브젝트를 가져오기 위해서는 GetComponentsInChildren 매서드를 사용할 수 있습니다.</li>
                 <li>최초에 한번만 동작하면 되기 때문에, null 체크를 추가합니다.</li>
             </list>
+            <tip>typescript 기준으로 if 문과 null 설명해줘.</tip>
         </step>
         <step>
             <code-block lang="typescript">
@@ -125,6 +126,7 @@
                 <li>Inventory에 중간에 아이템이 추가되는 경우를 확인하기 위한 AddItem 매서드를 추가합니다.</li>
                 <li>배열에 데이터를 추가하기 위해서는 push 매서드를 사용합니다.</li>
             </list>
+            <tip>typescript 기준으로 배열과 push 설명해줘.</tip>
         </step>
         <step>
             <code-block lang="typescript">

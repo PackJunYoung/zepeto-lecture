@@ -166,6 +166,7 @@
                 <li>해당 스프라이트의 이름이 ${itemId}_icon 형태를 가지면 해당 스프라이트를 반환합니다.</li>
                 <li>이름이 일치하는 이미지를 찾지 못하면 null 을 반환합니다.</li>
             </list>
+            <tip>typescript 기준으로 for문 설명해줘.</tip>
         </step>
         <step>
             <code-block lang="typescript">

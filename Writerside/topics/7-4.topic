@@ -68,6 +68,7 @@
                 <li>export는 외부에서 접근할 수 있도록 추가하는 부분입니다.</li>
                 <li>ItemInfo 는 단순하게 어느 아이템인지 나타내는 itemId와 개수를 나타내는 count로 구성됩니다.</li>
             </list>
+            <tip>typescript 기준으로 interface를 설명해줘.</tip>
         </step>
         <step>
             <code-block lang="typescript">
@@ -88,6 +89,7 @@
                 <li>items는 내가 보유한 아이템들을 나타냅니다.</li>
                 <li>데이터 타입 이후에 [] 가 붙으면 해당 데이터 여러개를 나타내는 배열입니다.</li>
             </list>
+            <tip>typescript 기준으로 배열 설명해줘.</tip>
         </step>
         <step>
             <code-block lang="typescript">
@@ -114,6 +116,7 @@
                 <li>ItemInfo 는 json 형태로 추가가 가능합니다.</li>
                 <li>두 개의 초기 아이템이 추가된 모습입니다.</li>
             </list>
+            <tip>typescript 기준으로 json 설명해줘.</tip>
         </step>
     </procedure>
 </topic>
