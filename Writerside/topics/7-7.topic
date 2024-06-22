@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="인벤토리 유아이 적용" id="7-7">
+
+    <procedure title="인벤토리 매서드 추가">
+        <step>
+            <code-block lang="typescript">
+                export default class InventoryPopup extends ZepetoScriptBehaviour {
+
+                    public closeButton: Button;
+
+                    ...
+
+                    ShowPopup() {
+
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>인벤토리 버튼을 클릭했을 때, 유아이를 활성화 시키고 해당 내용을 구성시켜야 합니다.</li>
+                <li>해당 내용을 구성하는 코드를 추가할 ShowPopup 매서드를 추가합니다.</li>
+                <li>해당 매서드는 유아이를 활성화 시킬때 같이 호출해주어야 합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                this.inventorytBtn.onClick.AddListener(() => {
+                    this.inventoryPopup.SetActive(true);
+                    this.inventoryPopup.GetComponent<InventoryPopup>().ShowPopup();
+                });
+                ]]>
+            </code-block>
+            <list>
+                <li>인벤토리 버튼을 클릭했을때, ShowPopup 매서드도 호출해 줍니다.</li>
+                <li>해당 오브젝트가 가지고 있는 InventoryPopup 스크립트를 접근해야 하므로, GetComponent 매서드를 사용해 줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                export default class InventoryPopup extends ZepetoScriptBehaviour {
+
+                    public closeButton: Button;
+
+                    private itemIcons: InventoryIcon[];
+
+                    Start() {
+                        this.closeButton.onClick.AddListener(() => {
+                            this.gameObject.SetActive(false);
+                        });
+                    }
+
+                    ShowPopup() {
+                        if (this.itemIcons == null) {
+                            this.itemIcons = this.gameObject.GetComponentsInChildren<InventoryIcon>();
+                        }
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>인벤토리 팝업은 하위에 여러개의 IventoryIcon을 가지고 있습니다. 그리고 해당 슬롯들이 각각 하나의 아이템을 표현하도록 설정해야 합니다.</li>
+                <li>먼저 해당 스크립트를 여러개 할당하기 위한 itemIcons 프로퍼티를 추가합니다. 여러개이기 때문에 역시 배열입니다.</li>
+                <li>하위에 있는 여러개의 오브젝트를 가져오기 위해서는 GetComponentsInChildren 매서드를 사용할 수 있습니다.</li>
+                <li>최초에 한번만 동작하면 되기 때문에, null 체크를 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                ShowPopup() {
+                    if (this.itemIcons == null) {
+                        this.itemIcons = this.gameObject.GetComponentsInChildren<InventoryIcon>();
+                    }
+
+                    for (var i = 0; i<this.itemIcons.length; i++) {
+                        if (i < Inventory.instance.items.length) {
+                            this.itemIcons[i].gameObject.SetActive(true);
+                            this.itemIcons[i].SetIcon(Inventory.instance.items[i]);
+                        } else {
+                            this.itemIcons[i].gameObject.SetActive(false);
+                        }
+                    }
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>for 문을 사용하여 각 아이템 슬롯을 순회합니다.</li>
+                <li>i가 items.length 보다 작다는 것은 해당 범위에 아이템이 있다는 것을 뜻합니다.</li>
+                <li>따라서 if 문 내부에서는 해당 아이템을 표현하고, else 문 부분에는 아이템이 없는 것이므로 슬롯을 비활성화 시키면 됩니다.</li>
+                <li>표현할 아이템이 있는 if 문 내부는 SetIcon을 호출하여 해당 아이템을 전달합니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="결과 확인">
+        <step>
+            <img alt="7-7-1.png" src="7-7-1.png"/>
+            <list>
+                <li>실행 시, 초기 아이템으로 지정한 두 개의 아이템이 표시되는것을 볼 수 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="게임 중간에 아이템 추가">
+        <step>
+            <code-block lang="typescript">
+                export default class Inventory extends ZepetoScriptBehaviour {
+
+                    ...
+
+                    AddItem() {
+                        this.items.push({"itemId": "armor", "count": 5});
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>Inventory에 중간에 아이템이 추가되는 경우를 확인하기 위한 AddItem 매서드를 추가합니다.</li>
+                <li>배열에 데이터를 추가하기 위해서는 push 매서드를 사용합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                export default class Teleport extends ZepetoScriptBehaviour {
+
+                    public destination: GameObject;
+
+                    OnTriggerEnter(collider: Collider) {
+                        ...
+
+                        console.log("OnTriggerEnter!!!");
+                        Inventory.instance.AddItem();
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>이전에 만들어 둔 텔레포트 시, 아이템이 추가되도록 해당 부분에서 AddItem을 호출해줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-7-4.png" src="7-7-4.png"/>
+            <list>
+                <li>초기에 두개였던 아이템이 텔레포트 후 3개가 된 것을 확인할 수 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+</topic>

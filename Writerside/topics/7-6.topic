@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="인벤토리 아이콘 적용" id="7-6">
+
+    <procedure title="스크립트 추가">
+        <step>
+            <img alt="7-6-1.png" src="7-6-1.png"/>
+            <list>
+                <li>인벤토리 유아이의 한 칸을 표현할 스크립트를 추가합니다.</li>
+                <li>InventoryIcon 이름으로 추가합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                export default class InventoryIcon extends ZepetoScriptBehaviour {
+
+                    public icon: Image;
+                    public count: Text;
+
+                }
+            </code-block>
+            <list>
+                <li>Image 타입의 icon과 Text 타입의 count 프로퍼티를 추가합니다.</li>
+                <li>인벤토리 아이템의 아이콘과 개수를 표현할 프로퍼티 입니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-6-2.png" src="7-6-2.png"/>
+            <list>
+                <li>인벤토리 아이템을 나타내느 item 항목을 선택합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-6-3.png" src="7-6-3.png"/>
+            <list>
+                <li>InventoryIcon 스크립트 컴포넌트를 추가합니다.</li>
+                <li>하위 항목인 icon과 count를 연결해 줍니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-6-4.png" src="7-6-4.png"/>
+            <list>
+                <li>나머지 19개 항목에도 일일이 지정하기에는 번거롭기 때문에 첫번째 지정한 오브젝트만 제외하고 전부 제거합니다.</li>
+                <li>그리고 다시 19개를 복사합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                export default class InventoryIcon extends ZepetoScriptBehaviour {
+
+                    public icon: Image;
+                    public count: Text;
+
+                    public SetIcon(info: ItemInfo) {
+
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>해당 아이콘을 보유한 하나의 아이템으로 구성시킬 메서드를 추가합니다.</li>
+                <li>SetIcon 메서드를 추가하고 매개변수로 ItemInfo를 받습니다.</li>
+                <li>ItemInfo는 하나의 아이템 정보를 표현하므로, InventoryIcon 한개는 하나의 ItemInfo를 표현해주면 됩니다.</li>
+            </list>
+        </step>
+    </procedure>
+
+    <procedure title="아이템 슬롯 코드 추가">
+        <step>
+            <code-block lang="typescript">
+                export default class InventoryIcon extends ZepetoScriptBehaviour {
+
+                    public icon: Image;
+                    public count: Text;
+
+                    public SetIcon(info: ItemInfo) {
+                        this.count.text = info.count.toString();
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>해당 아이템 정보로 인벤토리 슬롯을 표시하는 코드를 추가해 줍니다.</li>
+                <li>count는 해당 아이템의 개수인 info.count 를 할당해줍니다.</li>
+                <li>해당 값은 number이고 text가 받는 값은 string 형식이기 때문에, toString 매서드를 통해 string으로 형변환 시켜줘야 합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-6-7.png" src="7-6-7.png"/>
+            <list>
+                <li>문제는 아이콘 이미지 인데, 추가 에셋에 가보면 ???_icon 형태의 이미지가 몇가지 있는 것을 확인할 수 있습니다.</li>
+                <li>해당 이미지들을 아이콘 이미지로 사용하는 이미지로 적용하겠습니다.</li>
+                <li>_icon 앞 부분의 ??? 부분을 itemId로 적용시킬 예정입니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                export default class Inventory extends ZepetoScriptBehaviour {
+
+                    public static instance: Inventory;
+
+                    public icons: Sprite[];
+                    public items: ItemInfo[];
+
+                    ...
+
+                }
+            </code-block>
+            <list>
+                <li>Inventory 스크립트에 아이콘 이미지들을 담을 icons 프로퍼티를 추가합니다.</li>
+                <li>데이터 타입은 Sprite 이며, 여러개이기 때문에 배열로 선언합니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-6-8.png" src="7-6-8.png"/>
+            <list>
+                <li>Inventory 오브젝트를 선택해보면 인스펙터에 icons 를 설정할 수 있는 유아이가 추가되어 있습니다.</li>
+                <li>여러개의 데이터를 가지는 배열 프로퍼티이기 때문에 위와 같은 모습의 인스펙터가 추가됩니다.</li>
+                <li>+ 버튼을 통해 데이터를 추가할 수 있습니다.</li>
+            </list>
+        </step>
+        <step>
+            <img alt="7-6-9.png" src="7-6-9.png"/>
+            <list>
+                <li>세 개를 추가하고, ???_icon 형태의 이미지를 연결합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                <![CDATA[
+                import { Sprite } from 'UnityEngine';
+                import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+
+                export interface ItemInfo {
+                    itemId: string;
+                    count: number;
+                }
+
+                export default class Inventory extends ZepetoScriptBehaviour {
+
+                    public static instance: Inventory;
+
+                    public icons: Sprite[];
+                    public items: ItemInfo[];
+
+                    ...
+
+                    GetIcon(itemId: string): Sprite {
+                        for (var i=0; i<this.icons.length; i++) {
+                            if (this.icons[i].name == `${itemId}_icon`)
+                                return this.icons[i];
+                            }
+                        return null;
+                    }
+
+                }
+                ]]>
+            </code-block>
+            <list>
+                <li>itemId를 받아서 해당 아이템의 아이콘 이미지를 반환하는 GetIcon 매서드를 추가합니다.</li>
+                <li>매개변수로 itemId를 받고 Sprite 타입을 반환하는 매서드 형식입니다.</li>
+                <li>여러개의 이미지를 담고 있는 icons를 for문을 돌면서 순회합니다.</li>
+                <li>해당 스프라이트의 이름이 ${itemId}_icon 형태를 가지면 해당 스프라이트를 반환합니다.</li>
+                <li>이름이 일치하는 이미지를 찾지 못하면 null 을 반환합니다.</li>
+            </list>
+        </step>
+        <step>
+            <code-block lang="typescript">
+                export default class InventoryIcon extends ZepetoScriptBehaviour {
+
+                    public icon: Image;
+                    public count: Text;
+
+                    public SetIcon(info: ItemInfo) {
+                        this.icon.sprite = Inventory.instance.GetIcon(info.itemId);
+                        this.count.text = info.count.toString();
+                    }
+
+                }
+            </code-block>
+            <list>
+                <li>icon을 적용하는 코드도 추가합니다.</li>
+                <li>Inventory의 GetIcon 매서드를 호출하여 알맞은 스프라이트를 가져옵니다.</li>
+                <li>해당 스프라이트는 .sprite 프로퍼티에 할당함으로써 이미지를 변경할 수 있습니다.</li>
+            </list>
+        </step>
+    </procedure>
+</topic>

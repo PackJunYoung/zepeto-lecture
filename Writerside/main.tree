@@ -53,4 +53,11 @@
         <toc-element topic="study-state.topic"/>
         <toc-element topic="sync-character.topic"/>
     </toc-element>
+    <toc-element topic="Inventory.topic">
+        <toc-element topic="7-1.topic"/>
+        <toc-element topic="7-3.topic"/>
+        <toc-element topic="7-4.topic"/>
+        <toc-element topic="7-6.topic"/>
+        <toc-element topic="7-7.topic"/>
+    </toc-element>
 </instance-profile>
